@@ -6,12 +6,17 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import UpdateProfileScreen from './screens/UpdateProfileScreen';
+import LogOutScreen from './screens/LogOutScreen';
+import ContactScreen from './screens/ContactScreen';
+
 
 const StackNavigator = () => {
   const Tab = createBottomTabNavigator();
@@ -34,6 +39,20 @@ const StackNavigator = () => {
               ),
           }}
         />
+         <Tab.Screen
+          name="Contact"
+          component={ContactScreen}
+          options={{
+            tabBarLabel: 'Contact',
+            headerShown: false,
+            tabBarIcon: ({ focused }) =>
+              focused ? (
+                <MaterialCommunityIcons name="contacts" size={24} color="black" />
+              ) : (
+                <MaterialCommunityIcons name="contacts-outline" size={24} color="black" />
+              ),
+          }}
+        />
         <Tab.Screen
           name="Profile"
           component={ProfileScreen}
@@ -49,43 +68,35 @@ const StackNavigator = () => {
           }}
         />
         <Tab.Screen
-          name="Login"
-          component={LoginScreen}
+          name="LogOut"
+          component={LogOutScreen}
           options={{
-            tabBarLabel: 'Login',
+            tabBarLabel: 'LogOut',
             headerShown: false,
             tabBarIcon: ({ focused }) =>
               focused ? (
-                <Ionicons name="person" size={24} color="black" />
+                <MaterialIcons name="logout" size={24} color="black" />
               ) : (
-                <Ionicons name="person-outline" size={24} color="black" />
+                <MaterialIcons name="logout" size={24} color="black" />
               ),
           }}
         />
-        <Tab.Screen
-          name="Register"
-          component={RegisterScreen}
-          options={{
-            tabBarLabel: 'Register',
-            headerShown: false,
-            tabBarIcon: ({ focused }) =>
-              focused ? (
-                <Ionicons name="person" size={24} color="black" />
-              ) : (
-                <Ionicons name="person-outline" size={24} color="black" />
-              ),
-          }}
-        />
+
+
       </Tab.Navigator>
     );
   }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Main">
+
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Main" component={MyTabs} />
         <Stack.Screen name="UpdateProfile" component={UpdateProfileScreen} />
       </Stack.Navigator>
+
     </NavigationContainer>
   );
 };

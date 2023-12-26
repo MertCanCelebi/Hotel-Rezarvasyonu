@@ -20,7 +20,7 @@ const LoginScreen = ({navigation}) => {
       setTimeout(() => {
         navigation.reset({
             index: 0,
-            routes: [{ name: 'Home' }],
+            routes: [{ name: 'Main' }],
         });
     }, 2000);
 
@@ -46,6 +46,12 @@ const LoginScreen = ({navigation}) => {
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Giriş Yap</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.reset({
+                index: 0,
+                routes: [{ name: 'Register' }],
+            })}>
+                <Text style={styles.registerLink}>Henüz Bir Hesabınınz Yok Mu? Hemen Kayıt Olun!!</Text>
+            </TouchableOpacity>
       {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
       {successMessage ? <Text style={styles.successText}>{successMessage}</Text> : null}
     </View>
@@ -71,7 +77,7 @@ const styles = StyleSheet.create({
       padding: 8,
     },
     button: {
-      backgroundColor: 'blue',
+      backgroundColor: 'green',
       padding: 10,
       borderRadius: 5,
     },
@@ -79,6 +85,7 @@ const styles = StyleSheet.create({
       color: 'white',
       textAlign: 'center',
     },
+   
     successText: {
         color: 'green',
         marginTop: 8,
