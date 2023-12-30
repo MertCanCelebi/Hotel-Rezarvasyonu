@@ -39,7 +39,7 @@ const ProfileScreen = ({ navigation }) => {
     <View style={styles.container}>
       {user ? (
         <View style={styles.innerContainer}>
-          <Text style={styles.title}>Profil Bilgileri</Text>
+          <Text style={styles.title}>*Profil Bilgileri*</Text>
           <Text style={styles.greeting}>MERHABA,</Text>
           <Text style={styles.email}>{user.email}</Text>
          
@@ -55,7 +55,7 @@ const ProfileScreen = ({ navigation }) => {
           <TouchableOpacity style={styles.button} onPress={handleUpdateEmail}>
             <Text style={styles.buttonText}>E-posta Değiştir</Text>
           </TouchableOpacity>
-
+          <View style={styles.spaccing}/>
           <Text style={styles.label}>Yeni Şifre:</Text>
           <TextInput
             style={styles.input}
@@ -69,6 +69,7 @@ const ProfileScreen = ({ navigation }) => {
             <Text style={styles.buttonText}>Şifre Değiştir</Text>
           </TouchableOpacity>
 
+          <View style={styles.spaccing}/>
           <Button title="Çıkış Yap" onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Login' }] })} />
           {successMessage ? <Text style={styles.successText}>{successMessage}</Text> : null}
         </View>
@@ -101,14 +102,17 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   title: {
-    fontSize: 24,
-    marginBottom: 16,
+    fontSize: 38,
     color: '#333', // Metin rengi
+    textAlign:'center',
+    marginBottom: 35,
+    fontWeight: 'bold',
   },
   greeting: {
-    fontSize: 20,
-    marginBottom: 8,
-    color: '#555', // Metin rengi
+    fontWeight: 'bold',
+    fontSize: 25,
+    marginBottom: 12,
+    color: 'black', // Metin rengi
   },
   email: {
     fontSize: 18,
@@ -116,25 +120,30 @@ const styles = StyleSheet.create({
     color: '#666', // Metin rengi
   },
   label: {
-    fontSize: 16,
-    marginBottom: 8,
-    color: '#888', // Metin rengi
+    
+    fontWeight: 'bold',
+    fontSize: 23,
+    marginBottom: 12,
+    color: 'black', // Metin rengi
+    
   },
   input: {
     height: 40,
-    borderColor: '#ddd', // Sınır rengi
+    borderColor: 'black', // Sınır rengi
     borderWidth: 1,
     marginBottom: 16,
     padding: 8,
     borderRadius: 5,
   },
   button: {
+    
     backgroundColor: '#4CAF50', // Düğme rengi
     padding: 10,
     borderRadius: 5,
     marginTop: 16,
   },
   buttonText: {
+    fontWeight: 'bold',
     color: '#fff', // Düğme metni rengi
     textAlign: 'center',
   },
@@ -142,7 +151,12 @@ const styles = StyleSheet.create({
     color: '#4CAF50', // Başarı metni rengi
     marginTop: 8,
     textAlign: 'center',
+    
   },
+
+  spaccing: {
+    height:15,
+  }
 });
 
 export default ProfileScreen;

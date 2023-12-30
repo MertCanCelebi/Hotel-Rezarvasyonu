@@ -5,12 +5,14 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 const ContactScreen = () => {
   const authors = [
     {
+      image: require('C:\\Users\\User\\OneDrive\\Belgeler\\GitHub\\Hotel-Rezarvasyonu\\HotelRezervasyon\\images\\mert.jpg'),
       name: 'Mert Can Çelebi ',
       email: 'mertcancelebi12@gmail.com',
       description: 'Merhaba Ben Mert, Sakaryalıyım. 21 yaşındayım ve şu anda Sakarya Üniversitesinde Bilgisayar Mühendisliği bölümünde okuyorum.',
       
     },
     {
+      image: require('C:\\Users\\User\\OneDrive\\Belgeler\\GitHub\\Hotel-Rezarvasyonu\\HotelRezervasyon\\images\\elman.jpg'),
       name: 'Elman Muradov',
       email: 'elmanmuradov@gmail.com',
       description: 'Merhaba Ben Elman, aslen Azerbeycanlıyım fakat uzun süredir Düzce\'de ikamet ediyorum. 21 yaşındayım ve şu anda Sakarya Üniversitesinde Bilgisayar Mühendisliği bölümünde okuyorum.',
@@ -20,7 +22,7 @@ const ContactScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bizimle mail yoluyla iletişime geçebilirsiniz.</Text>
+      <Text style={styles.title}>   *Bizimle Mail Yoluyla* *İletişime Geçebilirsiniz*</Text>
       {authors.map((author, index) => (
         <View key={index} style={styles.authorContainer}>
           <Image source={author.image} style={styles.authorImage} />
@@ -43,6 +45,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 19,
     marginBottom: 50,
+    color:'black',
+    fontSize:30,
+    alignItems: 'center',
   },
   authorContainer: {
     marginBottom: 24,
@@ -57,6 +62,7 @@ const styles = StyleSheet.create({
   authorName: {
     fontSize: 18,
     fontWeight: 'bold',
+    fontSize:20,
   },
   authorEmail: {
     color: 'gray',
@@ -64,6 +70,7 @@ const styles = StyleSheet.create({
   },
   authorDescription: {
     textAlign: 'center',
+    
   },
 });
 

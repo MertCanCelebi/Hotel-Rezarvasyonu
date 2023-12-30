@@ -1,8 +1,8 @@
 // LoginScreen.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { firebase, db } from '../firebase';
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -10,28 +10,43 @@ const LoginScreen = ({navigation}) => {
   const [successMessage, setSuccessMessage] = useState('');
 
   const handleLogin = async () => {
-    const auth = getAuth();
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+      var user;
+      await firebase.auth().signInWithEmailAndPassword(email, password);
+      user = firebase.auth().currentUser;
       setErrorMessage('');
       setSuccessMessage('Giriş başarılı' + ' ' +  user.email);
+
+      const rolll = doc(firestore, 'users', user.uid);
+      const roll = await getDoc(rolll);
       
-      setTimeout(() => {
-        navigation.reset({
-            index: 0,
-            routes: [{ name: 'Main' }],
-        });
-    }, 2000);
+      if (roll.exists()) {
+        const userData = roll.data();
+        const userRole = userData.rol;
+      
+        if (userRole === 'kullanici') {
+          setTimeout(() => {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'Main' }],
+            });
+          }, 2000);
+        } else {
+          // Farklı bir rol ise buraya yönlendirme veya diğer işlemleri ekleyebilirsiniz.
+          console.log('Farklı bir rol');
+        }
+      } else {
+        console.warn('Kullanıcı belgesi bulunamadı.');
+      }
 
     } catch (error) {
-        setErrorMessage('Kullanıcı Adı  veya şifre hatalı');
+        setErrorMessage(error.message);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Giriş Yap</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"

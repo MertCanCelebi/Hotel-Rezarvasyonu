@@ -1,9 +1,9 @@
 // firebase.js
 
-import { initializeApp } from 'firebase/app';
-import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
-import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
-import { getFirestore } from 'firebase/firestore';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import {initializeFirestore} from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyA-1WyiuMhnO6pix1gupYygUvCqbUc6HYI",
@@ -14,14 +14,12 @@ const firebaseConfig = {
   appId: "1:587101646290:web:fc43008a25f10765182c0b",
   measurementId: "G-ST3KMDWC66"
 };
-
-const app = initializeApp(firebaseConfig);
-
-// AsyncStorage kullanarak Auth'ı başlatın
-const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+var app;
+if (!firebase.apps.length){
+    app = firebase.initializeApp(firebaseConfig);
+}
+const db = initializeFirestore(app, {
+    experimentalForceLongPolling: true,
 });
 
-const db = getFirestore();
-
-export { app, auth, db };
+export { firebase, db };
