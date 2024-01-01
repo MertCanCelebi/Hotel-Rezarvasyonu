@@ -62,13 +62,12 @@ const UserUpdateScreen = ({ route, navigation }) => {
             setSuccessMessage(["Kullanıcı başarıyla güncellendi."]);
     
             const redirectTimer = setTimeout(() => {
-                // navigation.reset({
-                //     index: 0,
-                //     routes: [{ name: 'AdminUserCRUDScreen' }],
-                // });
+               navigation.reset({
+                    index: 0,
+                     routes: [{ name: 'AdminUserCRUDScreen' }],
+                 });
     
-                // Geçmişe dönmek için aşağıdaki gibi kullanabilirsiniz:
-                navigation.goBack(); // veya navigation.navigate('AdminUserCRUDScreen');
+
             }, 1000);
     
             return () => clearTimeout(redirectTimer);

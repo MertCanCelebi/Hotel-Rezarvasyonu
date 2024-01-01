@@ -50,12 +50,17 @@ const UserAddScreen = ({ navigation }) => {
 
             setSuccessMessage('Kayıt başarılı, hoş geldiniz ' + username);
 
-            setTimeout(() => {
-                navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'AdminUserCRUDScreen' }],
-                });
-            }, 2000);
+            const redirectTimer = setTimeout(() => {
+                // navigation.reset({
+                //     index: 0,
+                //     routes: [{ name: 'AdminUserCRUDScreen' }],
+                // });
+    
+                // Geçmişe dönmek için aşağıdaki gibi kullanabilirsiniz:
+                navigation.goBack(); // veya navigation.navigate('AdminUserCRUDScreen');
+            }, 1000);
+    
+            return () => clearTimeout(redirectTimer);
         } catch (error) {
             if (error.code) {
                 switch (error.code) {
