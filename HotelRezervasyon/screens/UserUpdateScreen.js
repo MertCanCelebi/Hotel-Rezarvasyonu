@@ -40,40 +40,44 @@ const UserUpdateScreen = ({ route, navigation }) => {
     const handleUpdateUser = async () => {
         const phoneNumberRegex = /^\d+$/;
         if (updatedPhoneNumber.length !== 11 || !phoneNumberRegex.test(updatedPhoneNumber)) {
-          setErrorMessages(["Telefon numarası 11 rakamdan oluşmalıdır."]);
-          return;
+            setErrorMessages(["Telefon numarası 11 rakamdan oluşmalıdır."]);
+            return;
         }
     
         // Mail adresinin uygun formatta olup olmadığını kontrol et
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(updatedEmail)) {
-          setErrorMessages(["Geçerli bir e-posta adresi giriniz."]);
-          return;
+            setErrorMessages(["Geçerli bir e-posta adresi giriniz."]);
+            return;
         }
-        
+    
         try {
-            
             await updateDoc(doc(db, "users", userId), {
                 username: updatedUsername,
                 email: updatedEmail,
                 phoneNumber: updatedPhoneNumber,
                 rol: updatedRole,
             });
-            setSuccessMessage(["Kullanıcı  başarıyla güncellendi."]);
-
+    
+            setSuccessMessage(["Kullanıcı başarıyla güncellendi."]);
+    
             const redirectTimer = setTimeout(() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: 'AdminUserCRUDScreen' }],
-                });
-              }, 1000);
-        
-              return () => clearTimeout(redirectTimer);
+                // navigation.reset({
+                //     index: 0,
+                //     routes: [{ name: 'AdminUserCRUDScreen' }],
+                // });
+    
+                // Geçmişe dönmek için aşağıdaki gibi kullanabilirsiniz:
+                navigation.goBack(); // veya navigation.navigate('AdminUserCRUDScreen');
+            }, 1000);
+    
+            return () => clearTimeout(redirectTimer);
         } catch (error) {
             console.error("Error updating user: ", error);
             setErrorMessages(["Kullanıcı güncelleme sırasında bir hata oluştu"]);
         }
     };
+    
 
     if (!user) {
         return (
