@@ -6,35 +6,38 @@ const hotels = [
     id: 1,
     name: 'Hotel A',
     location: 'City A',
-    image: require('C:\\Users\\User\\OneDrive\\Belgeler\\GitHub\\Hotel-Rezarvasyonu\\HotelRezervasyon\\images\\kocaali.jpg'),
+    image: require('../assets/kocaali.jpg'),
   },
   {
     id: 2,
     name: 'Hotel B',
     location: 'City B',
-    image: require('C:\\Users\\User\\OneDrive\\Belgeler\\GitHub\\Hotel-Rezarvasyonu\\HotelRezervasyon\\images\\kocaali.jpg'),
+    image: require('../assets/kocaali.jpg'),
   },
   {
     id: 3,
     name: 'Hotel C',
     location: 'City C',
-    image: require('C:\\Users\\User\\OneDrive\\Belgeler\\GitHub\\Hotel-Rezarvasyonu\\HotelRezervasyon\\images\\kocaali.jpg'),
+    image: require('../assets/kocaali.jpg'),
   },
   {
     id: 4,
     name: 'Hotel D',
     location: 'City D',
-    image: require('C:\\Users\\User\\OneDrive\\Belgeler\\GitHub\\Hotel-Rezarvasyonu\\HotelRezervasyon\\images\\kocaali.jpg'),
+    image: require('../assets/kocaali.jpg'),
   },
   {
     id: 5,
     name: 'Hotel E',
     location: 'City E',
-    image: require('C:\\Users\\User\\OneDrive\\Belgeler\\GitHub\\Hotel-Rezarvasyonu\\HotelRezervasyon\\images\\kocaali.jpg'),
+    image: require('../assets/kocaali.jpg'),
   },
 ];
 
 const HomeScreen = () => {
+
+
+  
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       {hotels.map((hotel) => (

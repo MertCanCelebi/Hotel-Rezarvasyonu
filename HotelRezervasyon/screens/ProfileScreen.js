@@ -1,80 +1,82 @@
+// Profile.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity } from 'react-native';
-import { auth } from '../firebase'; // Firebase dosyanızın yolu
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { db } from '../firebase'; // Firebase dosyanızın doğru yolu ile değiştirin
+import {
+  getFirestore,
+  where,
+  collection,
+  query,
+  getDocs,
+} from 'firebase/firestore';
+import { FontAwesome } from '@expo/vector-icons'; // Veya istediğiniz ikon kütüphanesini kullanabilirsiniz
 
 const ProfileScreen = ({ navigation }) => {
   const [user, setUser] = useState(null);
-  const [newEmail, setNewEmail] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUser(user);
+
+        try {
+          const db = getFirestore();
+          const usersRef = collection(db, 'users');
+          const userQuery = query(usersRef, where('email', '==', user.email));
+          const querySnapshot = await getDocs(userQuery);
+
+          if (!querySnapshot.empty) {
+            const userData = querySnapshot.docs[0].data();
+            setUserData(userData);
+          }
+        } catch (error) {
+          console.error('Error retrieving user data from Firestore:', error);
+        }
+      } else {
+        setUser(null);
+        setUserData(null);
+      }
     });
 
-    // Temizleme fonksiyonunu geri döndükten sonra bu useEffect'i temizle
     return () => unsubscribe();
   }, []);
 
-  const handleUpdateEmail = async () => {
-    try {
-      await user.updateEmail(newEmail);
-      setSuccessMessage('E-posta adresiniz güncellendi.');
-    } catch (error) {
-      console.error('E-posta güncellenirken bir hata oluştu:', error.message);
-    }
-  };
-  
-  const handleUpdatePassword = async () => {
-    try {
-      await user.updatePassword(newPassword);
-      setSuccessMessage('Şifreniz güncellendi.');
-    } catch (error) {
-      console.error('Şifre güncellenirken bir hata oluştu:', error.message);
-    }
+  // Kullanıcının profilini güncellemek için kullanılacak fonksiyon
+  const handleEditProfile = () => {
+    navigation.navigate('UpdateProfile');
   };
 
   return (
     <View style={styles.container}>
       {user ? (
-        <View style={styles.innerContainer}>
-          <Text style={styles.title}>*Profil Bilgileri*</Text>
-          <Text style={styles.greeting}>MERHABA,</Text>
-          <Text style={styles.email}>{user.email}</Text>
-         
-
-          <Text style={styles.label}>Yeni E-posta:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Yeni E-posta Adresinizi Girin"
-            value={newEmail}
-            onChangeText={(text) => setNewEmail(text)}
-          />
-
-          <TouchableOpacity style={styles.button} onPress={handleUpdateEmail}>
-            <Text style={styles.buttonText}>E-posta Değiştir</Text>
+        <View style={styles.card}>
+          <Text style={styles.title}>Profil Bilgileri</Text>
+          <View style={styles.infoContainer}>
+            <Text style={styles.label}>Username:</Text>
+            <Text style={styles.info}>{userData?.username || 'Bilgi Yok'}</Text>
+          </View>
+          <View style={styles.infoContainer}>
+            <Text style={styles.label}>Email:</Text>
+            <Text style={styles.info}>{userData?.email}</Text>
+          </View>
+          <View style={styles.infoContainer}>
+            <Text style={styles.label}>Telefon Numarası:</Text>
+            <Text style={styles.info}>
+              {userData?.phoneNumber || 'Bilgi Yok'}
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={handleEditProfile}>
+            <FontAwesome name="edit" size={20} color="white" />
+            <Text style={styles.editButtonText}> Profilini Düzenle</Text>
           </TouchableOpacity>
-          <View style={styles.spaccing}/>
-          <Text style={styles.label}>Yeni Şifre:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Yeni Şifrenizi Girin"
-            secureTextEntry
-            value={newPassword}
-            onChangeText={(text) => setNewPassword(text)}
-          />
-
-          <TouchableOpacity style={styles.button} onPress={handleUpdatePassword}>
-            <Text style={styles.buttonText}>Şifre Değiştir</Text>
-          </TouchableOpacity>
-
-          <View style={styles.spaccing}/>
-          <Button title="Çıkış Yap" onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Login' }] })} />
-          {successMessage ? <Text style={styles.successText}>{successMessage}</Text> : null}
         </View>
       ) : (
-        <Text>Kullanıcı giriş yapmamış.</Text>
+        <Text style={styles.title}>Kullanıcı Girişi Yapın</Text>
       )}
     </View>
   );
@@ -85,13 +87,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F2F5FF', // Arkaplan rengi
+    backgroundColor: '#f0f0f0',
   },
-  innerContainer: {
-    width: '80%',
+  card: {
+    backgroundColor: 'white',
     padding: 20,
     borderRadius: 10,
-    backgroundColor: '#fff', // İçerik alanı rengi
+    elevation: 3,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -99,64 +101,40 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
   },
   title: {
-    fontSize: 38,
-    color: '#333', // Metin rengi
-    textAlign:'center',
-    marginBottom: 35,
-    fontWeight: 'bold',
-  },
-  greeting: {
-    fontWeight: 'bold',
-    fontSize: 25,
-    marginBottom: 12,
-    color: 'black', // Metin rengi
-  },
-  email: {
-    fontSize: 18,
+    fontSize: 24,
     marginBottom: 16,
-    color: '#666', // Metin rengi
+    textAlign: 'center',
+  },
+  infoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 12,
   },
   label: {
-    
+    fontSize: 16,
     fontWeight: 'bold',
-    fontSize: 23,
-    marginBottom: 12,
-    color: 'black', // Metin rengi
-    
+    color: '#333',
   },
-  input: {
-    height: 40,
-    borderColor: 'black', // Sınır rengi
-    borderWidth: 1,
-    marginBottom: 16,
-    padding: 8,
-    borderRadius: 5,
+  info: {
+    fontSize: 16,
+    color: '#555',
   },
-  button: {
-    
-    backgroundColor: '#4CAF50', // Düğme rengi
+  editButton: {
+    flexDirection: 'row',
+    backgroundColor: 'blue',
     padding: 10,
     borderRadius: 5,
     marginTop: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  buttonText: {
-    fontWeight: 'bold',
-    color: '#fff', // Düğme metni rengi
-    textAlign: 'center',
+  editButtonText: {
+    color: 'white',
+    fontSize: 16,
+    marginLeft: 8,
   },
-  successText: {
-    color: '#4CAF50', // Başarı metni rengi
-    marginTop: 8,
-    textAlign: 'center',
-    
-  },
-
-  spaccing: {
-    height:15,
-  }
 });
 
 export default ProfileScreen;

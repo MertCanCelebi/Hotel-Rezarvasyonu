@@ -5,14 +5,14 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 const ContactScreen = () => {
   const authors = [
     {
-      image: require('C:\\Users\\User\\OneDrive\\Belgeler\\GitHub\\Hotel-Rezarvasyonu\\HotelRezervasyon\\images\\mert.jpg'),
+      image: require('../assets/mert.jpg'),
       name: 'Mert Can Çelebi ',
       email: 'mertcancelebi12@gmail.com',
       description: 'Merhaba Ben Mert, Sakaryalıyım. 21 yaşındayım ve şu anda Sakarya Üniversitesinde Bilgisayar Mühendisliği bölümünde okuyorum.',
       
     },
     {
-      image: require('C:\\Users\\User\\OneDrive\\Belgeler\\GitHub\\Hotel-Rezarvasyonu\\HotelRezervasyon\\images\\elman.jpg'),
+      image: require('../assets/elman.jpg'),
       name: 'Elman Muradov',
       email: 'elmanmuradov@gmail.com',
       description: 'Merhaba Ben Elman, aslen Azerbeycanlıyım fakat uzun süredir Düzce\'de ikamet ediyorum. 21 yaşındayım ve şu anda Sakarya Üniversitesinde Bilgisayar Mühendisliği bölümünde okuyorum.',

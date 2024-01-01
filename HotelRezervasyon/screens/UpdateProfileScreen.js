@@ -1,50 +1,90 @@
-// UpdateProfileScreen.js
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
-import { getAuth, updateProfile } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+// UpdateProfile.js
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { getAuth, updateProfile, onAuthStateChanged } from 'firebase/auth';
+import { db } from '../firebase'; // Firebase dosyanızın doğru yolu ile değiştirin
+import { 
+    updateDoc, 
+    doc, 
+    collection,  
+    getFirestore,
+    where,
+    query,
+    getDocs,
+} from 'firebase/firestore';
 
-const UpdateProfileScreen = ({ route, navigation }) => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-    const { userData } = route.params;
-    const [newName, setNewName] = useState(userData.name || '');
-    const [newEmail, setNewEmail] = useState(userData.email || '');
+const UpdateProfileScreen = ({ navigation }) => {
+    const [user, setUser] = useState(null);
+    const [newUsername, setNewUsername] = useState('');
+    const [newPhoneNumber, setNewPhoneNumber] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    useEffect(() => {
+        const auth = getAuth();
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                setUser(user);
+            } else {
+                setUser(null);
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
 
     const handleUpdateProfile = async () => {
         try {
-            // Kullanıcı adını ve e-postayı güncelle
-            await updateProfile(user, { displayName: newName });
-            await user.updateEmail(newEmail);
+            const auth = getAuth();
+            const user = auth.currentUser;
 
-            // Firestore'da kullanıcı bilgilerini güncelle
-            const userDocRef = doc(db, 'users', user.uid);
-            await setDoc(userDocRef, { name: newName, email: newEmail }, { merge: true });
+            // Yeni kullanıcı bilgilerini Firebase Auth üzerinde güncelle
+            await updateProfile(user, {
+                displayName: newUsername,
+            });
 
-            Alert.alert('Başarı', 'Profil bilgileri güncellendi.');
-            navigation.goBack(); // Profil sayfasına geri dön
+            // Firestore'da kullanıcı koleksiyonunu güncelle
+            const usersRef = collection(db, "users");
+            const userQuery = query(usersRef, where("email", "==", user.email)); // Kullanıcının e-posta adresine göre sorgu yap
+            const querySnapshot = await getDocs(userQuery);
+
+            if (querySnapshot.empty) {
+                console.error("Kullanıcı bulunamadı");
+                return;
+            }
+
+            // Sadece bir kullanıcı bekleniyor, çünkü email alanına göre sorgu yapıldı
+            const userDocRef = doc(db, "users", querySnapshot.docs[0].id);
+
+            await updateDoc(userDocRef, {
+                username: newUsername,
+                phoneNumber: newPhoneNumber,
+            });
+
+            // Başarı mesajını göster ve ana sayfaya yönlendir
+            setErrorMessage('');
+            navigation.navigate('Main');
         } catch (error) {
-            console.error('Profil güncelleme hatası:', error.message);
-            Alert.alert('Hata', 'Profil güncelleme hatası: ' + error.message);
+            console.error('Profil güncelleme hatası:', error);
+            setErrorMessage('Profil güncelleme sırasında bir hata oluştu.');
         }
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Profil Güncelleme</Text>
+            <Text style={styles.title}>Profilini Güncelle</Text>
             <TextInput
                 style={styles.input}
-                placeholder="Ad"
-                value={newName}
-                onChangeText={(text) => setNewName(text)}
+                placeholder="Yeni Kullanıcı Adı"
+                onChangeText={(text) => setNewUsername(text)}
             />
             <TextInput
                 style={styles.input}
-                placeholder="E-posta"
-                value={newEmail}
-                onChangeText={(text) => setNewEmail(text)}
+                placeholder="Yeni Telefon Numarası"
+                onChangeText={(text) => setNewPhoneNumber(text)}
             />
+            {errorMessage ? (
+                <Text style={styles.errorText}>{errorMessage}</Text>
+            ) : null}
             <TouchableOpacity style={styles.button} onPress={handleUpdateProfile}>
                 <Text style={styles.buttonText}>Güncelle</Text>
             </TouchableOpacity>
@@ -71,13 +111,17 @@ const styles = StyleSheet.create({
         padding: 8,
     },
     button: {
-        backgroundColor: 'green',
+        backgroundColor: 'blue',
         padding: 10,
         borderRadius: 5,
     },
     buttonText: {
         color: 'white',
         textAlign: 'center',
+    },
+    errorText: {
+        color: 'red',
+        marginTop: 8,
     },
 });
 

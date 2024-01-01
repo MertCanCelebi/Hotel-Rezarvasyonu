@@ -1,10 +1,9 @@
-// RegisterScreen.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
-const RegisterScreen = ({ navigation }) => {
+const UserAddScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
@@ -44,7 +43,7 @@ const RegisterScreen = ({ navigation }) => {
                 email: email,
                 phoneNumber: phoneNumber,
                 password: password,
-                rol:'kullanici'
+                rol: rol,
             };
 
             await addDoc(usersCollection, userData);
@@ -54,7 +53,7 @@ const RegisterScreen = ({ navigation }) => {
             setTimeout(() => {
                 navigation.reset({
                     index: 0,
-                    routes: [{ name: 'Login' }],
+                    routes: [{ name: 'AdminUserCRUDScreen' }],
                 });
             }, 2000);
         } catch (error) {
@@ -80,7 +79,7 @@ const RegisterScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Kayıt Ol</Text>
+            <Text style={styles.title}>Kullanıcı Ekle</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Kullanıcı Adı"
@@ -99,21 +98,27 @@ const RegisterScreen = ({ navigation }) => {
             />
             <TextInput
                 style={styles.input}
+                placeholder="Rol"
+                onChangeText={(text) => setRol(text)}
+
+            />
+            <TextInput
+                style={styles.input}
                 placeholder="Şifre"
                 secureTextEntry
                 onChangeText={(text) => setPassword(text)}
             />
-            
-            
-            
+
+
+
             <TouchableOpacity style={styles.button} onPress={handleRegister}>
-                <Text style={styles.buttonText}>Kayıt Ol</Text>
+                <Text style={styles.buttonText}>Kulanıcı Ekle</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.reset({
                 index: 0,
-                routes: [{ name: 'Login' }],
+                routes: [{ name: 'AdminUserCRUDScreen' }],
             })}>
-                <Text style={styles.loginLink}>Zaten hesabınız var mı? Giriş Yapın</Text>
+              
             </TouchableOpacity>
             {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
             {successMessage ? <Text style={styles.successText}>{successMessage}</Text> : null}
@@ -162,4 +167,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default RegisterScreen;
+export default UserAddScreen;

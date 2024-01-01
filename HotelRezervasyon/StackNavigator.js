@@ -16,6 +16,11 @@ import ProfileScreen from "./screens/ProfileScreen";
 import UpdateProfileScreen from "./screens/UpdateProfileScreen";
 import LogOutScreen from "./screens/LogOutScreen";
 import ContactScreen from "./screens/ContactScreen";
+import AdminScreen from "./screens/AdminScreen";
+import AdminHotelCRUDScreen from "./screens/AdminHotelCRUDScreen";
+import AdminUserCRUDScreen from "./screens/AdminUserCRUDScreen";
+import UserUpdateScreen from "./screens/UserUpdateScreen";
+import UserAddScreen from "./screens/UserAddScreen";
 
 const StackNavigator = () => {
   const Tab = createBottomTabNavigator();
@@ -95,10 +100,10 @@ const StackNavigator = () => {
     return (
       <Tab.Navigator>
         <Tab.Screen
-          name="Home"
-          component={HomeScreen}
+          name="Admin"
+          component={AdminScreen}
           options={{
-            tabBarLabel: "Home",
+            tabBarLabel: "Admin",
             headerShown: false,
             tabBarIcon: ({ focused }) =>
               focused ? (
@@ -146,6 +151,11 @@ const StackNavigator = () => {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Main" component={MyTabs} />
+        <Stack.Screen name="AdminScreen" component={AdminScreen} />
+        <Stack.Screen name="AdminUserCRUDScreen" component={AdminUserCRUDScreen} />
+        <Stack.Screen name="UserAddScreen" component={UserAddScreen} />
+        <Stack.Screen name="AdminHotelCRUDScreen" component={AdminHotelCRUDScreen} />
+        <Stack.Screen name="UserUpdateScreen" component={UserUpdateScreen} />
         <Stack.Screen name="AdminTabs" component={AdminTabs} />
         <Stack.Screen name="UpdateProfile" component={UpdateProfileScreen} />
       </Stack.Navigator>
