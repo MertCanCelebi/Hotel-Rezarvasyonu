@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { app, db } from '../firebase';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { Picker } from '@react-native-picker/picker'; // Değişiklik yapılan kısım
 
 const UserUpdateScreen = ({ route, navigation }) => {
     const { userId } = route.params;
@@ -13,6 +12,8 @@ const UserUpdateScreen = ({ route, navigation }) => {
     const [updatedEmail, setUpdatedEmail] = useState('');
     const [updatedPhoneNumber, setUpdatedPhoneNumber] = useState('');
     const [updatedRole, setUpdatedRole] = useState('');
+    const [errorMessages, setErrorMessages] = useState([]);
+    const [successMessage, setSuccessMessage] = useState([]);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -39,14 +40,14 @@ const UserUpdateScreen = ({ route, navigation }) => {
     const handleUpdateUser = async () => {
         const phoneNumberRegex = /^\d+$/;
         if (updatedPhoneNumber.length !== 11 || !phoneNumberRegex.test(updatedPhoneNumber)) {
-          console.error("Telefon numarası 11 rakamdan oluşmalıdır.");
+          setErrorMessages(["Telefon numarası 11 rakamdan oluşmalıdır."]);
           return;
         }
     
         // Mail adresinin uygun formatta olup olmadığını kontrol et
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(updatedEmail)) {
-          console.error("Geçerli bir e-posta adresi giriniz.");
+          setErrorMessages(["Geçerli bir e-posta adresi giriniz."]);
           return;
         }
         
@@ -58,14 +59,19 @@ const UserUpdateScreen = ({ route, navigation }) => {
                 phoneNumber: updatedPhoneNumber,
                 rol: updatedRole,
             });
-            console.log("User updated");
+            setSuccessMessage(["Kullanıcı  başarıyla güncellendi."]);
 
-             navigation.reset({
-                index: 0,
-                routes: [{ name: 'AdminUserCRUDScreen' }],
-            })
+            const redirectTimer = setTimeout(() => {
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: 'AdminUserCRUDScreen' }],
+                });
+              }, 1000);
+        
+              return () => clearTimeout(redirectTimer);
         } catch (error) {
             console.error("Error updating user: ", error);
+            setErrorMessages(["Kullanıcı güncelleme sırasında bir hata oluştu"]);
         }
     };
 
@@ -106,6 +112,24 @@ const UserUpdateScreen = ({ route, navigation }) => {
                 onChangeText={setUpdatedRole}
             />
             <Button title="Güncelle" onPress={handleUpdateUser} />
+            {errorMessages.length > 0 && (
+                <View>
+                    {errorMessages.map((errorMessage, index) => (
+                        <Text key={index} style={styles.errorMessage}>
+                            {errorMessage}
+                        </Text>
+                    ))}
+                </View>
+            )}
+            {successMessage.length > 0 && (
+                <View>
+                    {successMessage.map((successMessage, index) => (
+                        <Text key={index} style={styles.successMessage}>
+                            {successMessage}
+                        </Text>
+                    ))}
+                </View>
+            )}
         </View>
     );
 };
@@ -126,6 +150,14 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 10,
         marginBottom: 10,
+    },
+    errorMessage: {
+        color: 'red',
+        marginTop: 10,
+    },
+    successMessage: {
+        color: 'green',
+        marginTop: 10,
     },
 });
 

@@ -21,6 +21,7 @@ import AdminHotelCRUDScreen from "./screens/AdminHotelCRUDScreen";
 import AdminUserCRUDScreen from "./screens/AdminUserCRUDScreen";
 import UserUpdateScreen from "./screens/UserUpdateScreen";
 import UserAddScreen from "./screens/UserAddScreen";
+import UserChangePasswordScreen from "./screens/UserChangePasswordScreen";
 
 const StackNavigator = () => {
   const Tab = createBottomTabNavigator();
@@ -156,6 +157,7 @@ const StackNavigator = () => {
         <Stack.Screen name="UserAddScreen" component={UserAddScreen} />
         <Stack.Screen name="AdminHotelCRUDScreen" component={AdminHotelCRUDScreen} />
         <Stack.Screen name="UserUpdateScreen" component={UserUpdateScreen} />
+        <Stack.Screen name="UserChangePasswordScreen" component={UserChangePasswordScreen} />
         <Stack.Screen name="AdminTabs" component={AdminTabs} />
         <Stack.Screen name="UpdateProfile" component={UpdateProfileScreen} />
       </Stack.Navigator>
