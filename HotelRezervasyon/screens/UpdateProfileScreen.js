@@ -24,6 +24,21 @@ const UpdateProfileScreen = ({ navigation }) => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setUser(user);
+
+                // Fetch user data from Firestore
+                try {
+                    const usersRef = collection(db, "users");
+                    const userQuery = query(usersRef, where("email", "==", user.email));
+                    const querySnapshot = await getDocs(userQuery);
+
+                    if (!querySnapshot.empty) {
+                        const userData = querySnapshot.docs[0].data();
+                        setNewUsername(userData.username || '');
+                        setNewPhoneNumber(userData.phoneNumber || '');
+                    }
+                } catch (error) {
+                    console.error('Error fetching user data from Firestore:', error);
+                }
             } else {
                 setUser(null);
             }
@@ -62,7 +77,8 @@ const UpdateProfileScreen = ({ navigation }) => {
 
             // Başarı mesajını göster ve ana sayfaya yönlendir
             setErrorMessage('');
-            navigation.navigate('Main');
+            navigation.goBack();
+
         } catch (error) {
             console.error('Profil güncelleme hatası:', error);
             setErrorMessage('Profil güncelleme sırasında bir hata oluştu.');
@@ -76,11 +92,13 @@ const UpdateProfileScreen = ({ navigation }) => {
                 style={styles.input}
                 placeholder="Yeni Kullanıcı Adı"
                 onChangeText={(text) => setNewUsername(text)}
+                value={newUsername}
             />
             <TextInput
                 style={styles.input}
                 placeholder="Yeni Telefon Numarası"
                 onChangeText={(text) => setNewPhoneNumber(text)}
+                value={newPhoneNumber}
             />
             {errorMessage ? (
                 <Text style={styles.errorText}>{errorMessage}</Text>

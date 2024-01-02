@@ -1,8 +1,8 @@
 import firebase from "firebase/compat/app";
 import 'firebase/compat/auth';
-import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { getStorage, ref, getDownloadURL,uploadBytes } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyC6FlcZ6R656lympHIhanTcTMSIDLaKw8Q",
@@ -15,8 +15,13 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
 const db = getFirestore(app);
-const auth = getAuth(app);
+const storage = getStorage(app); // Storage ekleniyor
 
-export { db,auth };
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+const auth = firebase.auth();
+
+export { app, db, storage, getDownloadURL, ref,uploadBytes, }; // storage ve getDownloadURL ekleniyor

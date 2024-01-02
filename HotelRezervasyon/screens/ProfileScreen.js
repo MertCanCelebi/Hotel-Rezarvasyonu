@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { db } from '../firebase'; // Firebase dosyanızın doğru yolu ile değiştirin
+import { db } from '../firebase'; 
 import {
   getFirestore,
   where,
@@ -10,7 +10,7 @@ import {
   query,
   getDocs,
 } from 'firebase/firestore';
-import { FontAwesome } from '@expo/vector-icons'; // Veya istediğiniz ikon kütüphanesini kullanabilirsiniz
+import { FontAwesome } from '@expo/vector-icons';
 
 const ProfileScreen = ({ navigation }) => {
   const [user, setUser] = useState(null);
@@ -44,7 +44,7 @@ const ProfileScreen = ({ navigation }) => {
     return () => unsubscribe();
   }, []);
 
-  // Kullanıcının profilini güncellemek için kullanılacak fonksiyon
+  
   const handleEditProfile = () => {
     navigation.navigate('UpdateProfile');
   };

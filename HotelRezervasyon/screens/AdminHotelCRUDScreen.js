@@ -1,9 +1,10 @@
 // AdminHotelCRUDScreen.js
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
-import { app, db } from '../firebase';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Alert,Image } from 'react-native';
+import { app, db,storage } from '../firebase';
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { getStorage, ref, getDownloadURL, uploadString } from "firebase/storage";
 
 const AdminHotelCRUDScreen = ({ navigation }) => {
     const [hotels, setHotels] = useState([]);
@@ -18,6 +19,27 @@ const AdminHotelCRUDScreen = ({ navigation }) => {
 
         fetchHotels();
     }, []);
+
+    function ProductImage({ hotelName, width, height }) {
+        const [imageUrl, setImageUrl] = useState(null);
+    
+        useEffect(() => {
+            const fetchImage = async () => {
+                try {
+                    const url = await getDownloadURL(ref(storage, `${hotelName}.jpg`));
+                    setImageUrl(url);
+                } catch (error) {
+                    console.error('Resim alınamadı:', error);
+                }
+            };
+    
+            fetchImage();
+        }, [hotelName]);
+    
+        return (
+            <Image source={{ uri: imageUrl }} style={{ width: width, height: height, borderRadius: 30 }} />
+        )
+    }
 
     const handleDeleteHotel = (hotelId) => {
         // Silme işlemi öncesinde kullanıcıya bir onay mesajı göster
@@ -60,6 +82,7 @@ const AdminHotelCRUDScreen = ({ navigation }) => {
             <Text style={styles.heading}>Admin Hotel CRUD Screen</Text>
             {hotels.map(hotel => (
                 <View key={hotel.id} style={styles.hotelItem}>
+                    <ProductImage hotelName={hotel.hotelName} height={(200)} width={(300)} />
                     <Text style={styles.hotelInfo}>{`Hotel Name: ${hotel.hotelName}`}</Text>
                     <Text style={styles.hotelInfo}>{`Location: ${hotel.hotelCity}`}</Text>
                     <Text style={styles.hotelInfo}>{`Description: ${hotel.Description}`}</Text>
