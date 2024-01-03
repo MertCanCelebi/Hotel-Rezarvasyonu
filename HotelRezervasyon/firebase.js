@@ -24,4 +24,4 @@ if (!firebase.apps.length) {
 
 const auth = firebase.auth();
 
-export { app, db, storage, getDownloadURL, ref,uploadBytes, }; // storage ve getDownloadURL ekleniyor
+export { app, db, storage, getDownloadURL, ref,uploadBytes, auth}; // storage ve getDownloadURL ekleniyor

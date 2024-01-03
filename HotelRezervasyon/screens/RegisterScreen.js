@@ -48,7 +48,7 @@ const RegisterScreen = ({ navigation }) => {
             };
 
             await addDoc(usersCollection, userData);
-
+            setErrorMessage("");
             setSuccessMessage('Kayıt başarılı, hoş geldiniz ' + username);
 
             setTimeout(() => {
@@ -56,7 +56,7 @@ const RegisterScreen = ({ navigation }) => {
                     index: 0,
                     routes: [{ name: 'Login' }],
                 });
-            }, 2000);
+            }, 1000);
         } catch (error) {
             if (error.code) {
                 switch (error.code) {
@@ -81,42 +81,44 @@ const RegisterScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Kayıt Ol</Text>
+
             <TextInput
                 style={styles.input}
                 placeholder="Kullanıcı Adı"
                 onChangeText={(text) => setUsername(text)}
             />
+
             <TextInput
                 style={styles.input}
                 placeholder="Email"
                 onChangeText={(text) => setEmail(text)}
+                keyboardType="email-address"
             />
+
             <TextInput
                 style={styles.input}
                 placeholder="Telefon Numarası"
                 onChangeText={(text) => setPhoneNumber(text)}
                 keyboardType="numeric"
             />
+
             <TextInput
                 style={styles.input}
                 placeholder="Şifre"
                 secureTextEntry
                 onChangeText={(text) => setPassword(text)}
             />
-            
-            
-            
+
             <TouchableOpacity style={styles.button} onPress={handleRegister}>
                 <Text style={styles.buttonText}>Kayıt Ol</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.reset({
-                index: 0,
-                routes: [{ name: 'Login' }],
-            })}>
+
+            <TouchableOpacity onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Login' }] })}>
                 <Text style={styles.loginLink}>Zaten hesabınız var mı? Giriş Yapın</Text>
             </TouchableOpacity>
-            {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
-            {successMessage ? <Text style={styles.successText}>{successMessage}</Text> : null}
+
+            {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
+            {successMessage && <Text style={styles.successText}>{successMessage}</Text>}
         </View>
     );
 };
@@ -126,39 +128,54 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        paddingHorizontal: 20,
+        backgroundColor: '#FFD700', // Altın sarısı bir arka plan rengi
     },
     title: {
-        fontSize: 24,
-        marginBottom: 16,
+        fontSize: 28,
+        marginBottom: 20,
+        fontWeight: 'bold',
+        color: '#333',
     },
     input: {
-        width: '80%',
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 16,
-        padding: 8,
+        width: '100%',
+        height: 50,
+        borderColor: '#8A2BE2', // Koyu mor çerçeve rengi
+        borderWidth: 2,
+        marginBottom: 20,
+        padding: 12,
+        borderRadius: 8,
+        backgroundColor: '#FFFAF0', // İnci beyazı arka plan rengi
     },
     button: {
-        backgroundColor: 'green',
-        padding: 10,
-        borderRadius: 5,
+        backgroundColor: '#32CD32', // Yeşil düğme rengi
+        padding: 15,
+        borderRadius: 8,
+        width: '100%',
     },
     buttonText: {
         color: 'white',
         textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 16,
     },
     loginLink: {
-        marginTop: 16,
-        color: 'blue',
+        marginTop: 20,
+        color: '#4169E1', // Royal mavi renk
+        textDecorationLine: 'underline',
+        fontSize: 14,
     },
     successText: {
-        color: 'green',
-        marginTop: 8,
+        color: '#008000', // Yeşil renk
+        marginTop: 12,
+        fontWeight: 'bold',
+        fontSize: 16,
     },
     errorText: {
-        color: 'red',
-        marginTop: 8,
+        color: '#FF0000', // Kırmızı renk
+        marginTop: 12,
+        fontWeight: 'bold',
+        fontSize: 16,
     },
 });
 

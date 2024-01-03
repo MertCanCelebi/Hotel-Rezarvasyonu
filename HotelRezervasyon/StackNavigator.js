@@ -24,6 +24,10 @@ import UserAddScreen from "./screens/UserAddScreen";
 import UserChangePasswordScreen from "./screens/UserChangePasswordScreen";
 import HotelAddScreen from "./screens/HotelAddScreen";
 import HotelUpdateScreen from "./screens/HotelUpdateScreen";
+import HotelDetailsScreen from "./screens/HotelDetailsScreen";
+import FavoriteHotelsScreen from "./screens/FavoriteHotelsScreen";
+import MakeReservationScreen from "./screens/MakeReservationScreen";
+import MyReservationScreen from "./screens/MyReservationScreen";
 
 const StackNavigator = () => {
   const Tab = createBottomTabNavigator();
@@ -43,6 +47,34 @@ const StackNavigator = () => {
                 <Entypo name="home" size={24} color="black" />
               ) : (
                 <AntDesign name="home" size={24} color="black" />
+              ),
+          }}
+        />
+        <Tab.Screen
+          name="FavoriteHotels"
+          component={FavoriteHotelsScreen}
+          options={{
+            tabBarLabel: "Favorites",
+            headerShown: false,
+            tabBarIcon: ({ focused }) =>
+              focused ? (
+                <Entypo name="heart" size={24} color="black" />
+              ) : (
+                <Entypo name="heart-outlined" size={24} color="black" />
+              ),
+          }}
+        />
+        <Tab.Screen
+          name="MyReservations"
+          component={MyReservationScreen}
+          options={{
+            tabBarLabel: "MyReservations",
+            headerShown: false,
+            tabBarIcon: ({ focused }) =>
+              focused ? (
+                <AntDesign name="checksquare" size={24} color="black" />
+              ) : (
+                <AntDesign name="checksquareo" size={24} color="black" />
               ),
           }}
         />
@@ -154,7 +186,11 @@ const StackNavigator = () => {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Main" component={MyTabs} />
+        <Stack.Screen name="HotelDetailsScreen" component={HotelDetailsScreen} />
         <Stack.Screen name="AdminScreen" component={AdminScreen} />
+        <Stack.Screen name="FavoriteHotelsScreen" component={FavoriteHotelsScreen} />
+        <Stack.Screen name="MakeReservationScreen" component={MakeReservationScreen} />
+        <Stack.Screen name="MyReservationScreen" component={MyReservationScreen} />
         <Stack.Screen name="AdminUserCRUDScreen" component={AdminUserCRUDScreen} />
         <Stack.Screen name="UserAddScreen" component={UserAddScreen} />
         <Stack.Screen name="AdminHotelCRUDScreen" component={AdminHotelCRUDScreen} />

@@ -1,89 +1,121 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Alert, Image ,TextInput} from 'react-native';
+import { SearchBar } from 'react-native-elements';
+import { app, db, storage } from '../firebase';
+import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { getStorage, ref, getDownloadURL, uploadString } from "firebase/storage";
 
-const hotels = [
-  {
-    id: 1,
-    name: 'Hotel A',
-    location: 'City A',
-    image: require('../assets/kocaali.jpg'),
-  },
-  {
-    id: 2,
-    name: 'Hotel B',
-    location: 'City B',
-    image: require('../assets/kocaali.jpg'),
-  },
-  {
-    id: 3,
-    name: 'Hotel C',
-    location: 'City C',
-    image: require('../assets/kocaali.jpg'),
-  },
-  {
-    id: 4,
-    name: 'Hotel D',
-    location: 'City D',
-    image: require('../assets/kocaali.jpg'),
-  },
-  {
-    id: 5,
-    name: 'Hotel E',
-    location: 'City E',
-    image: require('../assets/kocaali.jpg'),
-  },
-];
+const HomeScreen = ({ navigation }) => {
+  const [hotels, setHotels] = useState([]);
+  const [search, setSearch] = useState('');
 
-const HomeScreen = () => {
+  useEffect(() => {
+      const fetchHotels = async () => {
+          const hotelsRef = collection(db, "hotels");
+          const snapshot = await getDocs(hotelsRef);
+          const hotelsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          setHotels(hotelsData);
+      };
 
+      fetchHotels();
+  }, []);
 
-  
+  function ProductImage({ hotelName, width, height }) {
+      const [imageUrl, setImageUrl] = useState(null);
+
+      useEffect(() => {
+          const fetchImage = async () => {
+              try {
+                  const url = await getDownloadURL(ref(storage, `${hotelName}.jpg`));
+                  setImageUrl(url);
+              } catch (error) {
+                  console.error('Resim alınamadı:', error);
+              }
+          };
+
+          fetchImage();
+      }, [hotelName]);
+
+      return (
+          <Image source={{ uri: imageUrl }} style={{ width: width, height: height, borderRadius: 30 }} />
+      )
+  }
+
+  const filteredHotels = hotels.filter(hotel => {
+    const searchText = search.toLowerCase();
+    return (
+        hotel.hotelName.toLowerCase().includes(searchText) ||
+        hotel.Description.toLowerCase().includes(searchText) ||
+        hotel.hotelCity.toLowerCase().includes(searchText)
+        // Diğer özelliklere göre de filtreleme ekleyebilirsiniz
+    );
+});
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-      {hotels.map((hotel) => (
-        <View key={hotel.id} style={styles.hotelCard}>
-          <Image source={hotel.image} style={styles.hotelImage} />
-          <Text style={styles.hotelName}>{hotel.name}</Text>
-          <Text style={styles.hotelLocation}>{hotel.location}</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.heading}>Oteller</Text>
+
+        <View style={styles.searchContainer}>
+            <TextInput
+                style={styles.searchInput}
+                placeholder="Search..."
+                onChangeText={setSearch}
+                value={search}
+            />
         </View>
-      ))}
+
+        {filteredHotels.map(hotel => (
+          <TouchableOpacity
+          key={hotel.id}
+          style={styles.hotelItem}
+          onPress={() => navigation.navigate('HotelDetailsScreen', { hotel })}
+        >
+            <View key={hotel.id} style={styles.hotelItem}>
+                <Text style={styles.hotelInfo}>{`${hotel.hotelName}`}</Text>
+                <ProductImage hotelName={hotel.hotelName} height={200} width={270} />
+                <Text style={styles.hotelInfo}>{`${hotel.Description}`}</Text>
+
+                <Text style={styles.hotelInfo}>{`Şehir: ${hotel.hotelCity}`}</Text>
+                <Text style={styles.hotelInfo}>{`Ücret: ${hotel.price}`}</Text>
+            </View>
+            </TouchableOpacity>
+        ))}
     </ScrollView>
-  );
+);
 };
 
 const styles = StyleSheet.create({
-  scrollViewContainer: {
-    padding: 16,
-  },
-  hotelCard: {
-    marginBottom: 16,
-    padding: 16,
+container: {
+    padding: 20,
+    backgroundColor: '#f0f0f0',
+},
+heading: {
+    fontSize: 24,
+    marginBottom: 20,
+    color: '#333',
+},
+hotelItem: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 10,
     backgroundColor: '#fff',
-    borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  hotelImage: {
-    width: '100%',
-    height: 200,
-    borderRadius: 8,
-    marginBottom: 8,
-  },
-  hotelName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  hotelLocation: {
-    fontSize: 14,
-    color: '#666',
-  },
+},
+hotelInfo: {
+    fontSize: 16,
+    marginBottom: 5,
+    color: '#333',
+},
+searchContainer: {
+    backgroundColor: '#ddd',
+    borderRadius: 5,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+},
+searchInput: {
+    fontSize: 16,
+    color: '#333',
+},
 });
 
 export default HomeScreen;
