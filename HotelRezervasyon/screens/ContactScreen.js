@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet,SafeAreaView,ScrollView } from 'react-native';
 
 
 const ContactScreen = () => {
@@ -21,7 +21,8 @@ const ContactScreen = () => {
   ];
 
   return (
-    <View style={styles.container}>
+    <ScrollView >
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>   *Bizimle Mail Yoluyla* *İletişime Geçebilirsiniz*</Text>
       {authors.map((author, index) => (
         <View key={index} style={styles.authorContainer}>
@@ -31,7 +32,8 @@ const ContactScreen = () => {
           <Text style={styles.authorDescription}>{author.description}</Text>
         </View>
       ))}
-    </View>
+    </SafeAreaView>
+    </ScrollView>
   );
 };
 

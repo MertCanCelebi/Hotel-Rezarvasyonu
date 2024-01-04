@@ -1,9 +1,8 @@
 // UserUpdateScreen.js
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { app, db } from '../firebase';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc,getDocs,query,collection,where,isEmpty } from 'firebase/firestore';
 
 const UserUpdateScreen = ({ route, navigation }) => {
     const { userId } = route.params;
@@ -50,7 +49,11 @@ const UserUpdateScreen = ({ route, navigation }) => {
             setErrorMessages(["Geçerli bir e-posta adresi giriniz."]);
             return;
         }
-    
+        const existingUserQuery = await getDocs(query(collection(db, 'users'), where('email', '==', updatedEmail)));
+        if (existingUserQuery.docs.length !== 0 && existingUserQuery.docs[0].id !== userId) {
+            setErrorMessages(["Bu e-posta adresi başka bir kullanıcı tarafından kullanılıyor."]);
+            return;
+        }
         try {
             await updateDoc(doc(db, "users", userId), {
                 username: updatedUsername,
@@ -58,19 +61,18 @@ const UserUpdateScreen = ({ route, navigation }) => {
                 phoneNumber: updatedPhoneNumber,
                 rol: updatedRole,
             });
-    
+            
             setSuccessMessage(["Kullanıcı başarıyla güncellendi."]);
+            setErrorMessages([]); // Clear error messages
     
-            const redirectTimer = setTimeout(() => {
-               navigation.reset({
-                    index: 0,
-                     routes: [{ name: 'AdminUserCRUDScreen' }],
-                 });
-    
-
-            }, 1000);
-    
-            return () => clearTimeout(redirectTimer);
+            const timer = setTimeout(() => {
+                // Şifre değiştirme işlemi tamamlandıktan sonra başka bir sayfaya yönlendirme yapabilirsiniz.
+                navigation.goBack();
+                navigation.goBack();
+                navigation.navigate('AdminUserCRUDScreen');
+              }, 1000);
+          
+              return () => clearTimeout(timer);
         } catch (error) {
             console.error("Error updating user: ", error);
             setErrorMessages(["Kullanıcı güncelleme sırasında bir hata oluştu"]);
@@ -88,8 +90,8 @@ const UserUpdateScreen = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.heading}>User Update Screen</Text>
-            <Text>{`Username: ${user.username}`}</Text>
+            <Text style={styles.heading}>Kullanıcı Güncelle</Text>
+            
             <TextInput
                 style={styles.input}
                 placeholder="Updated Username"
@@ -140,26 +142,26 @@ const UserUpdateScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        backgroundColor: '#f0f0f0',
+        backgroundColor: '#E0F7FA', // Açık Mavi tonlu arka plan rengi
     },
     heading: {
         fontSize: 24,
         marginBottom: 20,
-        color: '#333',
+        color: '#1565C0', // Koyu Mavi tonlu başlık rengi
     },
     input: {
         borderWidth: 1,
-        borderColor: '#ccc',
+        borderColor: '#4CAF50', // Yeşil renkli çerçeve rengi
         borderRadius: 5,
         padding: 10,
         marginBottom: 10,
     },
     errorMessage: {
-        color: 'red',
+        color: '#F44336', // Kırmızı renk
         marginTop: 10,
     },
     successMessage: {
-        color: 'green',
+        color: '#4CAF50', // Yeşil renk
         marginTop: 10,
     },
 });

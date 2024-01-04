@@ -45,6 +45,8 @@ const HotelDetails = ({ route, navigation }) => {
           });
 
           Alert.alert('Başarılı', 'Otel favorilere eklendi.');
+          navigation.navigate('Main');
+
         } else {
           // Eğer otel zaten favorilerde ise kullanıcıyı bilgilendir
           Alert.alert('Uyarı', 'Otel zaten favorilerinizde bulunuyor.');

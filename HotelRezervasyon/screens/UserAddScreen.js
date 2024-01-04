@@ -1,7 +1,9 @@
+// UserAddScreen.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import RNPickerSelect from 'react-native-picker-select';
 
 const UserAddScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -12,10 +14,9 @@ const UserAddScreen = ({ navigation }) => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-
     const handleRegister = async () => {
-        if (!username || !phoneNumber) {
-            setErrorMessage('Kullanıcı adı ve telefon numarası zorunlu alanlardır.');
+        if (!username || !phoneNumber || !rol) {
+            setErrorMessage('Kullanıcı adı, telefon numarası ve rol zorunlu alanlardır.');
             return;
         }
 
@@ -47,17 +48,11 @@ const UserAddScreen = ({ navigation }) => {
             };
 
             await addDoc(usersCollection, userData);
-
-            setSuccessMessage('Kayıt başarılı, hoş geldiniz ' + username);
+            setErrorMessage("");
+            setSuccessMessage('Kayıt başarılı ');
 
             const redirectTimer = setTimeout(() => {
-                // navigation.reset({
-                //     index: 0,
-                //     routes: [{ name: 'AdminUserCRUDScreen' }],
-                // });
-    
-                // Geçmişe dönmek için aşağıdaki gibi kullanabilirsiniz:
-                navigation.goBack(); // veya navigation.navigate('AdminUserCRUDScreen');
+                navigation.navigate('AdminTabs');
             }, 1000);
     
             return () => clearTimeout(redirectTimer);
@@ -105,7 +100,6 @@ const UserAddScreen = ({ navigation }) => {
                 style={styles.input}
                 placeholder="Rol"
                 onChangeText={(text) => setRol(text)}
-
             />
             <TextInput
                 style={styles.input}
@@ -114,17 +108,10 @@ const UserAddScreen = ({ navigation }) => {
                 onChangeText={(text) => setPassword(text)}
             />
 
-
-
             <TouchableOpacity style={styles.button} onPress={handleRegister}>
                 <Text style={styles.buttonText}>Kulanıcı Ekle</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.reset({
-                index: 0,
-                routes: [{ name: 'AdminUserCRUDScreen' }],
-            })}>
-              
-            </TouchableOpacity>
+
             {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
             {successMessage ? <Text style={styles.successText}>{successMessage}</Text> : null}
         </View>
@@ -136,21 +123,23 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#E0F2F1', // Light Green tonlu arka plan rengi
     },
     title: {
         fontSize: 24,
         marginBottom: 16,
+        color: '#1A237E', // Dark Blue tonlu başlık rengi
     },
     input: {
         width: '80%',
         height: 40,
-        borderColor: 'gray',
+        borderColor: '#4CAF50', // Yeşil renkli çerçeve rengi
         borderWidth: 1,
         marginBottom: 16,
         padding: 8,
     },
     button: {
-        backgroundColor: 'green',
+        backgroundColor: '#FF5722', // Turuncu renkli buton rengi
         padding: 10,
         borderRadius: 5,
     },
@@ -158,16 +147,12 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
     },
-    loginLink: {
-        marginTop: 16,
-        color: 'blue',
-    },
     successText: {
-        color: 'green',
+        color: '#4CAF50', // Yeşil renk
         marginTop: 8,
     },
     errorText: {
-        color: 'red',
+        color: '#F44336', // Kırmızı renk
         marginTop: 8,
     },
 });

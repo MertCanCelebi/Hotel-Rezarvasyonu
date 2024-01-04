@@ -94,7 +94,7 @@ const AdminHotelUpdateScreen = ({ route, navigation }) => {
     return (
 
         <View style={styles.container}>
-            <Text style={styles.title}>Otel Güncelle</Text>
+            <Text style={styles.title}>{hotelName}</Text>
             <View style={styles.productImage}>
             <ProductImage hotelName={hotelName} height={(200)} width={(300) }  />
             </View>
@@ -160,52 +160,54 @@ const AdminHotelUpdateScreen = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+      flexGrow: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#B2DFDB',
+      padding: 16,
     },
     title: {
-        fontSize: 24,
-        marginBottom: 16,
+      fontSize: 24,
+      marginBottom: 16,
     },
     inputContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 16,
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 16,
     },
     label: {
-        marginRight: 8,
-        width: 80,
+      marginRight: 8,
+      width: 80,
     },
     input: {
-        flex: 1,
-        height: 30,
-        maxWidth: '70%', // İstediğiniz genişliği ayarlayabilirsiniz
-        borderColor: 'gray',
-        borderWidth: 1,
-        padding: 6,
+      flex: 1,
+      height: 40,
+      borderColor: 'gray',
+      borderWidth: 1,
+      padding: 8,
     },
-
     button: {
-        backgroundColor: 'blue',
-        padding: 10,
-        borderRadius: 5,
+      backgroundColor: 'blue',
+      padding: 12,
+      borderRadius: 5,
+      marginTop: 20,
     },
     buttonText: {
-        color: 'white',
-        textAlign: 'center',
+      color: 'white',
+      textAlign: 'center',
     },
     successText: {
-        color: 'green',
-        marginTop: 8,
+      color: 'green',
+      marginTop: 8,
     },
     errorText: {
-        color: 'red',
-        marginTop: 8,
+      color: 'red',
+      marginTop: 8,
     },
     productImage: {
-        marginBottom: 10,
+      marginBottom: 20,
+      alignItems: 'center',
     },
-});
+  });
 
 export default AdminHotelUpdateScreen;

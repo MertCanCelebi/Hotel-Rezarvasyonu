@@ -174,9 +174,9 @@ const AdminHotelAddScreen = ({ navigation, visible, onCancel }) => {
 
         uploadImagesToFirebase(hotelName);
         addProduct(hotelName, price, hotelCity, Description, personCount);
-        navigation.goBack();
-        navigation.goBack();
-        navigation.navigate('AdminHotelCRUDScreen');
+        Alert.alert('Başarılı', 'Otel eklendi.');
+        navigation.navigate('AdminTabs');
+    
     }
     const closePage = () => {
         
@@ -243,7 +243,6 @@ const AdminHotelAddScreen = ({ navigation, visible, onCancel }) => {
                 <View style={styles.uploadBtn}>
                     <TouchableOpacity onPress={UploadProduct} disabled={uploading} >
                         <Text style={styles.buttonText}> Ürün Ekle</Text>
-                        {uploading && <Text>Yükleniyor...</Text>}
                     </TouchableOpacity>
                 </View>
                 <View style={styles.closeBttn}>
@@ -259,64 +258,74 @@ const AdminHotelAddScreen = ({ navigation, visible, onCancel }) => {
 }
 
 const styles = StyleSheet.create({
+    scrollContainer: {
+      flexGrow: 1,
+    },
     container: {
-        flex: 1,
-        alignItems: 'center',
-        backgroundColor: 'white',
-        padding: 15,
+      flex: 1,
+      alignItems: 'center',
+      backgroundColor: '#B2DFDB',
+      padding: 15,
     },
     button: {
-        width: 100,
-        marginHorizontal: 8,
-        color: 'red',
+      width: 100,
+      marginHorizontal: 8,
+      color: 'red',
     },
     inputStyle: {
-        width: '90%',
-        height: 50,
-        paddingLeft: 20,
-        paddingRight: 20,
-        marginTop: 30,
-        alignSelf: 'center',
-        borderWidth: 2,
-        borderColor: 'black',
-        alignItems: 'center',
-        textAlign: 'center',
-        borderRadius: 5,
+      width: '90%',
+      height: 50,
+      paddingLeft: 20,
+      paddingRight: 20,
+      marginTop: 30,
+      alignSelf: 'center',
+      borderWidth: 2,
+      borderColor: 'black',
+      alignItems: 'center',
+      textAlign: 'center',
+      borderRadius: 5,
     },
     pickBtn: {
-        width: '90%',
-        height: 50,
-        borderWidth: 0.5,
-        borderRadius: 10,
-        alignSelf: 'center',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 20,
-        backgroundColor: '#32CD32',
+      width: '90%',
+      height: 50,
+      borderWidth: 0.5,
+      borderRadius: 10,
+      alignSelf: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 20,
+      backgroundColor: '#32CD32',
     },
     uploadBtn: {
+      color: 'white',
+      backgroundColor: '#40E0D0',
+      width: '90%',
+      height: 50,
+      borderRadius: 10,
+      alignSelf: 'center',
+      marginTop: 20,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 10,
+    },
+    closeBttn: {
         color: 'white',
-        backgroundColor: '#40E0D0',
+        backgroundColor: 'red',
         width: '90%',
         height: 50,
         borderRadius: 10,
         alignSelf: 'center',
-        marginTop: 20,
+        marginTop: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 70,
-    },
-    closeBttn: {
-        alignItems: 'center',
-        padding: 10,
-        margin: 10,
-        borderRadius: 5,
-    },
+      
+      },
     buttonText: {
-        fontSize: 18,
-        color: '#000',
-        textAlign: 'center',
-    }
-});
+      fontSize: 18,
+      color: '#000',
+      textAlign: 'center',
+    },
+    
+  });
 
 export default AdminHotelAddScreen;

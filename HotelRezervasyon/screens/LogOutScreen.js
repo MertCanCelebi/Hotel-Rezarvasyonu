@@ -13,14 +13,14 @@ const LogOutScreen = ({ navigation }) => {
                 routes: [{ name: 'Login' }],
             });
         } catch (error) {
-            console.error('Logout Error:', error.message);
+            console.error('Çıkış Yapma Hatası:', error.message);
         }
     };
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Çıkış Yapmak İstediğinizden Emin Misiniz?</Text>
-            <TouchableOpacity style={styles.button} onPress={handleLogout}>
+            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
                 <Text style={styles.buttonText}>Çıkış Yap</Text>
             </TouchableOpacity>
         </View>
@@ -32,19 +32,24 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'red', // Gri tonlu arka plan rengi
+        padding: 20,
     },
     title: {
-        fontSize: 18,
-        marginBottom: 16,
+        fontSize: 24,
+        marginBottom: 20,
+        color: '#fff', // Metin rengi
+        textAlign: 'center',
     },
-    button: {
-        backgroundColor: 'red',
-        padding: 10,
+    logoutButton: {
+        backgroundColor: '#E57373', // Kırmızı tonlu buton rengi
+        padding: 15,
         borderRadius: 5,
     },
     buttonText: {
-        color: 'white',
+        color: '#fff', // Beyaz renkli metin
         textAlign: 'center',
+        fontSize: 18,
     },
 });
 

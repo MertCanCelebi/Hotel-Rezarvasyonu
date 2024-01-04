@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { db,auth } from '../firebase';
+import { db, auth } from '../firebase';
 import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 
 const MyReservationsScreen = ({ navigation, route }) => {
@@ -9,9 +9,7 @@ const MyReservationsScreen = ({ navigation, route }) => {
   useEffect(() => {
     // Bu kullanıcının rezervasyonlarını getir
     const fetchReservations = async () => {
-        const userId = auth.currentUser.uid;
-
-      
+      const userId = auth.currentUser.uid;
 
       const reservationsQuery = query(collection(db, 'reservations'), where('userId', '==', userId));
 
@@ -44,12 +42,12 @@ const MyReservationsScreen = ({ navigation, route }) => {
               // Rezervasyonu sil
               const reservationRef = doc(db, 'reservations', reservationId);
               await deleteDoc(reservationRef);
-  
+
               // Rezervasyonları güncelle
               setReservations((prevReservations) =>
                 prevReservations.filter((reservation) => reservation.id !== reservationId)
               );
-  
+
               Alert.alert('Başarılı', 'Rezervasyon iptal edildi.');
             } catch (error) {
               console.error('Error cancelling reservation:', error);
@@ -70,12 +68,13 @@ const MyReservationsScreen = ({ navigation, route }) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.reservationItem}>
-            <Text>{item.hotelName}</Text>
-            <Text>Check-In: {item.checkInDate}</Text>
-            <Text>Check-Out: {item.checkOutDate}</Text>
-            <Text>Person Count: {item.personCount}</Text>
+            <Text style={styles.hotelName}>{item.hotelName}</Text>
+            <Text style={styles.dateText}>Rezarvasyon Sahibi:{item.fullName}</Text>
+            <Text style={styles.dateText}>Giriş Tarihi: {item.checkInDate}</Text>
+            <Text style={styles.dateText}>Çıkış Tarihi: {item.checkOutDate}</Text>
+            <Text style={styles.infoText}>Kişi Sayısı: {item.personCount}</Text>
             <TouchableOpacity onPress={() => cancelReservation(item.id)}>
-              <Text style={styles.cancelButton}>Rezarvasyonu İptal Et</Text>
+              <Text style={styles.cancelButton}>Rezervasyonu İptal Et</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -88,12 +87,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#fafafa',
   },
   heading: {
     fontSize: 24,
     marginBottom: 20,
     color: '#333',
+    fontWeight: 'bold',
   },
   reservationItem: {
     borderBottomWidth: 1,
@@ -101,9 +101,24 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingBottom: 10,
   },
+  hotelName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: '#333',
+  },
+  dateText: {
+    fontSize: 16,
+    color: '#555',
+  },
+  infoText: {
+    fontSize: 16,
+    color: '#777',
+  },
   cancelButton: {
     color: 'red',
     marginTop: 5,
+    fontSize: 16,
   },
 });
 

@@ -34,7 +34,7 @@ const LoginScreen = ({ navigation }) => {
       try {
         const db = getFirestore();
         const usersRef = collection(db, "users");
-        const userQuery = query(usersRef, where("email", "==", email));
+        const userQuery = query(usersRef, where("email", "==",email.toLowerCase()));
         const querySnapshot = await getDocs(userQuery);
         let role = "";
 
@@ -52,14 +52,14 @@ const LoginScreen = ({ navigation }) => {
                 index: 0,
                 routes: [{ name: "Main" }],
               });
-            }, 2000);
+            }, 1000);
           } else {
             setTimeout(() => {
               navigation.reset({
                 index: 0,
                 routes: [{ name: "AdminTabs" }],
               });
-            }, 2000);
+            }, 1000);
           }
         }
 
@@ -107,7 +107,7 @@ const LoginScreen = ({ navigation }) => {
         }
       >
         <Text style={styles.registerLink}>
-          Henüz Bir Hesabınınz Yok Mu? Hemen Kayıt Olun!!
+          Henüz bir hesabınız yok mu? Hemen Kayıt Olun!!
         </Text>
       </TouchableOpacity>
       {errorMessage ? (
@@ -125,40 +125,54 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#F5F5F5", // Açık gri arka plan rengi
+    paddingHorizontal: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     marginBottom: 16,
+    fontWeight: "bold",
+    color: "#333",
   },
   input: {
-    width: "80%",
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 16,
-    padding: 8,
+    width: "100%",
+    height: 50,
+    borderColor: "#B0C4DE", // Gök mavisi çerçeve rengi
+    borderWidth: 2,
+    marginBottom: 20,
+    padding: 12,
+    borderRadius: 8,
+    backgroundColor: "#FFFFFF", // Beyaz arka plan rengi
   },
   button: {
-    backgroundColor: "green",
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: "#32CD32", // Yeşil düğme rengi
+    padding: 15,
+    borderRadius: 8,
+    width: "100%",
   },
   buttonText: {
     color: "white",
     textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 16,
   },
-
   successText: {
-    color: "green",
-    marginTop: 8,
+    color: "#008000", // Yeşil renk
+    marginTop: 12,
+    fontWeight: "bold",
+    fontSize: 16,
   },
   errorText: {
-    color: "red",
-    marginTop: 8,
+    color: "#FF0000", // Kırmızı renk
+    marginTop: 12,
+    fontWeight: "bold",
+    fontSize: 16,
   },
   registerLink: {
-    marginTop: 16,
-    color: "blue",
+    marginTop: 20,
+    color: "#4169E1", // Royal mavi renk
+    textDecorationLine: "underline",
+    fontSize: 14,
   },
 });
 

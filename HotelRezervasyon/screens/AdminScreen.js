@@ -1,5 +1,4 @@
 // AdminScreen.js
-
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -19,10 +18,10 @@ const AdminScreen = () => {
     <View style={styles.container}>
       <Text style={styles.heading}>Admin Panel</Text>
       <TouchableOpacity style={styles.button} onPress={handleUserButtonClick}>
-        <Text style={styles.buttonText}>Kullanıcılar</Text>
+        <Text style={styles.buttonText}>Kullanıcılar Yönetimi</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={handleHotelButtonClick}>
-        <Text style={styles.buttonText}>Hoteller</Text>
+        <Text style={styles.buttonText}>Otel Yönetimi</Text>
       </TouchableOpacity>
     </View>
   );
@@ -33,24 +32,27 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0', // Arka plan rengi
+    backgroundColor: '#2ecc71', // Daha canlı yeşil bir arka plan rengi
   },
   heading: {
-    fontSize: 24,
+    fontSize: 28,
     marginBottom: 20,
-    color: '#333', // Başlık rengi
+    color: '#fff', // Beyaz başlık rengi
+    fontWeight: 'bold',
   },
   button: {
-    backgroundColor: '#3498db', // Buton rengi
+    backgroundColor: '#3498db', // Mavi buton rengi
     padding: 15,
-    width: 200,
+    width: 250,
     alignItems: 'center',
-    borderRadius: 5,
+    borderRadius: 10,
     margin: 10,
+    elevation: 3, // Gölge efekti
   },
   buttonText: {
-    color: '#fff', // Buton metni rengi
+    color: '#fff', // Beyaz buton metni rengi
     fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

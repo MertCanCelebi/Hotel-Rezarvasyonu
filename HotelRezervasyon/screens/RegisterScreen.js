@@ -15,8 +15,8 @@ const RegisterScreen = ({ navigation }) => {
 
 
     const handleRegister = async () => {
-        if (!username || !phoneNumber) {
-            setErrorMessage('Kullanıcı adı ve telefon numarası zorunlu alanlardır.');
+        if (!username || !phoneNumber || !email || !password) {
+            setErrorMessage('Tüm alanların doldurulması zorunludur.');
             return;
         }
 
@@ -41,7 +41,7 @@ const RegisterScreen = ({ navigation }) => {
             const usersCollection = collection(db, 'users');
             const userData = {
                 username: username,
-                email: email,
+                email: email.toLowerCase(),
                 phoneNumber: phoneNumber,
                 password: password,
                 rol:'kullanici'
@@ -125,58 +125,58 @@ const RegisterScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 20,
-        backgroundColor: '#FFD700', // Altın sarısı bir arka plan rengi
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#F5F5F5", // Açık gri arka plan rengi
+      paddingHorizontal: 20,
     },
     title: {
-        fontSize: 28,
-        marginBottom: 20,
-        fontWeight: 'bold',
-        color: '#333',
+      fontSize: 28,
+      marginBottom: 16,
+      fontWeight: "bold",
+      color: "#333",
     },
     input: {
-        width: '100%',
-        height: 50,
-        borderColor: '#8A2BE2', // Koyu mor çerçeve rengi
-        borderWidth: 2,
-        marginBottom: 20,
-        padding: 12,
-        borderRadius: 8,
-        backgroundColor: '#FFFAF0', // İnci beyazı arka plan rengi
+      width: "100%",
+      height: 50,
+      borderColor: "#B0C4DE", // Gök mavisi çerçeve rengi
+      borderWidth: 2,
+      marginBottom: 20,
+      padding: 12,
+      borderRadius: 8,
+      backgroundColor: "#FFFFFF", // Beyaz arka plan rengi
     },
     button: {
-        backgroundColor: '#32CD32', // Yeşil düğme rengi
-        padding: 15,
-        borderRadius: 8,
-        width: '100%',
+      backgroundColor: "#32CD32", // Yeşil düğme rengi
+      padding: 15,
+      borderRadius: 8,
+      width: "100%",
     },
     buttonText: {
-        color: 'white',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-    loginLink: {
-        marginTop: 20,
-        color: '#4169E1', // Royal mavi renk
-        textDecorationLine: 'underline',
-        fontSize: 14,
+      color: "white",
+      textAlign: "center",
+      fontWeight: "bold",
+      fontSize: 16,
     },
     successText: {
-        color: '#008000', // Yeşil renk
-        marginTop: 12,
-        fontWeight: 'bold',
-        fontSize: 16,
+      color: "#008000", // Yeşil renk
+      marginTop: 12,
+      fontWeight: "bold",
+      fontSize: 16,
     },
     errorText: {
-        color: '#FF0000', // Kırmızı renk
-        marginTop: 12,
-        fontWeight: 'bold',
-        fontSize: 16,
+      color: "#FF0000", // Kırmızı renk
+      marginTop: 12,
+      fontWeight: "bold",
+      fontSize: 16,
     },
-});
+    loginLink: {
+      marginTop: 20,
+      color: "#4169E1", // Royal mavi renk
+      textDecorationLine: "underline",
+      fontSize: 14,
+    },
+  });
 
 export default RegisterScreen;

@@ -48,14 +48,14 @@ const ChangePasswordScreen = ({ route, navigation }) => {
       setSuccessMessage(["Şifre başarıyla güncellendi."]);
 
       // Şifre değiştirme işlemi tamamlandıktan sonra başka bir sayfaya yönlendirme yapabilirsiniz.
-      const redirectTimer = setTimeout(() => {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'AdminUserCRUDScreen' }],
-        });
+      const timer = setTimeout(() => {
+        // Şifre değiştirme işlemi tamamlandıktan sonra başka bir sayfaya yönlendirme yapabilirsiniz.
+        navigation.goBack();
+        navigation.goBack();
+        navigation.navigate('AdminUserCRUDScreen');
       }, 1000);
-
-      return () => clearTimeout(redirectTimer);
+  
+      return () => clearTimeout(timer);
 
     } catch (error) {
       console.error("Error changing password: ", error);
@@ -90,7 +90,7 @@ const ChangePasswordScreen = ({ route, navigation }) => {
           ))}
         </View>
       )}
-            {successMessage.length > 0 && (
+      {successMessage.length > 0 && (
         <View>
           {successMessage.map((successMessage, index) => (
             <Text key={index} style={styles.successMessage}>
@@ -106,26 +106,26 @@ const ChangePasswordScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#E0F7FA', // Açık Mavi tonlu arka plan rengi
   },
   heading: {
     fontSize: 24,
     marginBottom: 20,
-    color: '#333',
+    color: '#1565C0', // Koyu Mavi tonlu başlık rengi
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#4CAF50', // Yeşil renkli çerçeve rengi
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
   },
   errorMessage: {
-    color: 'red',
+    color: '#F44336', // Kırmızı renk
     marginTop: 10,
   },
   successMessage: {
-    color: 'green',
+    color: '#4CAF50', // Yeşil renk
     marginTop: 10,
   },
 });

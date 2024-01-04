@@ -88,7 +88,7 @@ const MakeReservationScreen = ({ navigation, route }) => {
       (newCheckOutDate >= existingCheckInDate && newCheckOutDate <= existingCheckOutDate)
     ) {
       isOverlapping = true;
-      Alert.alert('Uyarı', 'Bu tarihler arasında zaten bir rezervasyon bulunmaktadır.');
+      Alert.alert('Uyarı', 'Bu tarihler arasında oda müsait değil!! Başka tarih yazınız...');
     }
   });
 
@@ -123,7 +123,9 @@ const MakeReservationScreen = ({ navigation, route }) => {
       console.error('Error adding reservation:', error);
       Alert.alert('Hata', 'Rezervasyon oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.');
     }
+  
   };
+
 
   return (
     <View style={styles.container}>
@@ -176,6 +178,9 @@ const MakeReservationScreen = ({ navigation, route }) => {
       <TouchableOpacity style={styles.button} onPress={handleReservation}>
         <Text style={styles.buttonText}>Rezervasyon Yap</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Main')}>
+          <Text style={styles.buttonText}>Geri Dön</Text>
+        </TouchableOpacity>
     </View>
   );
 };
@@ -208,6 +213,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     textAlign: 'center',
+  },
+  backButton: {
+    backgroundColor: '#e74c3c',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
   },
 });
 
