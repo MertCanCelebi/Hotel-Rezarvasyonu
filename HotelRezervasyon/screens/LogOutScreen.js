@@ -32,22 +32,22 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'red', // Gri tonlu arka plan rengi
+        backgroundColor: 'red', 
         padding: 20,
     },
     title: {
         fontSize: 24,
         marginBottom: 20,
-        color: '#fff', // Metin rengi
+        color: '#fff',
         textAlign: 'center',
     },
     logoutButton: {
-        backgroundColor: '#E57373', // Kırmızı tonlu buton rengi
+        backgroundColor: '#E57373', 
         padding: 15,
         borderRadius: 5,
     },
     buttonText: {
-        color: '#fff', // Beyaz renkli metin
+        color: '#fff', 
         textAlign: 'center',
         fontSize: 18,
     },

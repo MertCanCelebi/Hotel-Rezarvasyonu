@@ -1,4 +1,3 @@
-// RegisterScreen.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
@@ -37,7 +36,7 @@ const RegisterScreen = ({ navigation }) => {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-            // Firestore'a kullanıcı bilgilerini kaydedin
+            
             const usersCollection = collection(db, 'users');
             const userData = {
                 username: username,
@@ -128,7 +127,7 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: "#F5F5F5", // Açık gri arka plan rengi
+      backgroundColor: "#F5F5F5",
       paddingHorizontal: 20,
     },
     title: {
@@ -140,15 +139,15 @@ const styles = StyleSheet.create({
     input: {
       width: "100%",
       height: 50,
-      borderColor: "#B0C4DE", // Gök mavisi çerçeve rengi
+      borderColor: "#B0C4DE", 
       borderWidth: 2,
       marginBottom: 20,
       padding: 12,
       borderRadius: 8,
-      backgroundColor: "#FFFFFF", // Beyaz arka plan rengi
+      backgroundColor: "#FFFFFF", 
     },
     button: {
-      backgroundColor: "#32CD32", // Yeşil düğme rengi
+      backgroundColor: "#32CD32",
       padding: 15,
       borderRadius: 8,
       width: "100%",
@@ -160,20 +159,20 @@ const styles = StyleSheet.create({
       fontSize: 16,
     },
     successText: {
-      color: "#008000", // Yeşil renk
+      color: "#008000", 
       marginTop: 12,
       fontWeight: "bold",
       fontSize: 16,
     },
     errorText: {
-      color: "#FF0000", // Kırmızı renk
+      color: "#FF0000", 
       marginTop: 12,
       fontWeight: "bold",
       fontSize: 16,
     },
     loginLink: {
       marginTop: 20,
-      color: "#4169E1", // Royal mavi renk
+      color: "#4169E1",
       textDecorationLine: "underline",
       fontSize: 14,
     },

@@ -1,5 +1,3 @@
-// HotelDetails.js
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import { storage, auth, db } from '../firebase';
@@ -27,36 +25,42 @@ const HotelDetails = ({ route, navigation }) => {
 
   const addToFavorites = async () => {
     try {
-      // Kullanıcı giriş yapmışsa
+     
       if (auth.currentUser) {
         const userId = auth.currentUser.uid;
 
-        // Favorilere ekleme işlemi
+        
         const favoriteHotelRef = collection(db, 'favoritehotel');
 
-        // Kullanıcının favori otellerini kontrol et
+        
         const querySnapshot = await getDocs(query(favoriteHotelRef, where('userId', '==', userId), where('hotelId', '==', hotel.id)));
 
         if (querySnapshot.size === 0) {
-          // Eğer bu otel zaten favorilere eklenmemişse
+          
           await addDoc(favoriteHotelRef, {
             userId: userId,
             hotelId: hotel.id,
           });
 
           Alert.alert('Başarılı', 'Otel favorilere eklendi.');
-          navigation.navigate('Main');
+
+          const timer = setTimeout(() => {
+                navigation.goBack();
+                navigation.navigate('Main');
+              }, 1000);
+          
+              return () => clearTimeout(timer);
 
         } else {
-          // Eğer otel zaten favorilerde ise kullanıcıyı bilgilendir
+          
           Alert.alert('Uyarı', 'Otel zaten favorilerinizde bulunuyor.');
         }
       } else {
-        // Kullanıcı giriş yapmamışsa, kullanıcıyı uyarıyoruz ve giriş sayfasına yönlendirme yapıyoruz
+        
         Alert.alert('Uyarı', 'Favorilere otel ekleyebilmek için giriş yapmalısınız.', [
           {
             text: 'Giriş Yap',
-            onPress: () => navigation.navigate('Login'), // Giriş sayfasına yönlendirme
+            onPress: () => navigation.navigate('Login'), 
           },
           {
             text: 'İptal',

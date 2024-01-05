@@ -1,5 +1,3 @@
-// AdminHotelUpdateScreen.js
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
@@ -18,7 +16,7 @@ const AdminHotelUpdateScreen = ({ route, navigation }) => {
 
     useEffect(() => {
         const fetchHotelData = async () => {
-            // Firestore'dan otel bilgilerini al
+            
             const db = getFirestore();
             const hotelRef = doc(db, 'hotels', hotelId);
             const hotelSnapshot = await getDoc(hotelRef);
@@ -60,12 +58,12 @@ const AdminHotelUpdateScreen = ({ route, navigation }) => {
     }
 
     const handleUpdateHotel = async () => {
-        if (!hotelName || !hotelCity || !description || !personCount || !price) {
+        if (!hotelCity || !description || !personCount || !price) {
             setErrorMessage('Bilgiler eksik tamamlayınız.');
             return;
         }
 
-        // Firestore'da otel bilgilerini güncelle
+        
         const db = getFirestore();
         const hotelRef = doc(db, 'hotels', hotelId);
         const updatedData = {
@@ -80,13 +78,13 @@ const AdminHotelUpdateScreen = ({ route, navigation }) => {
             await updateDoc(hotelRef, updatedData);
             setSuccessMessage('Otel başarıyla güncellendi.');
 
-            // İsteğe bağlı: Ekranı sıfırlayarak başka bir sayfaya yönlendirebilirsiniz.
+            
 
             navigation.goBack();
             navigation.goBack();
             navigation.navigate('AdminHotelCRUDScreen');
         } catch (error) {
-            console.error('Error updating hotel:', error);
+            console.error('Otel yükleme hatası:', error);
             setErrorMessage('Otel güncellenirken bir hata oluştu.');
         }
     };
@@ -97,15 +95,6 @@ const AdminHotelUpdateScreen = ({ route, navigation }) => {
             <Text style={styles.title}>{hotelName}</Text>
             <View style={styles.productImage}>
             <ProductImage hotelName={hotelName} height={(200)} width={(300) }  />
-            </View>
-            <View style={styles.inputContainer}>
-                <Text style={styles.label}>Otel Adı:</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Mert Hotel"
-                    value={hotelName}
-                    onChangeText={(text) => setHotelName(text)}
-                />
             </View>
 
             <View style={styles.inputContainer}>

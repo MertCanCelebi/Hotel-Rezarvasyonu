@@ -1,8 +1,7 @@
-// UpdateProfile.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { getAuth, updateProfile, onAuthStateChanged } from 'firebase/auth';
-import { db } from '../firebase'; // Firebase dosyanızın doğru yolu ile değiştirin
+import { db } from '../firebase'; 
 import { 
     updateDoc, 
     doc, 
@@ -24,8 +23,6 @@ const UpdateProfileScreen = ({ navigation }) => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setUser(user);
-
-                // Fetch user data from Firestore
                 try {
                     const usersRef = collection(db, "users");
                     const userQuery = query(usersRef, where("email", "==", user.email));
@@ -37,7 +34,7 @@ const UpdateProfileScreen = ({ navigation }) => {
                         setNewPhoneNumber(userData.phoneNumber || '');
                     }
                 } catch (error) {
-                    console.error('Error fetching user data from Firestore:', error);
+                    console.error('Kullanıcı bilgileri gelirken hata oluştu:', error);
                 }
             } else {
                 setUser(null);
@@ -52,14 +49,12 @@ const UpdateProfileScreen = ({ navigation }) => {
             const auth = getAuth();
             const user = auth.currentUser;
 
-            // Yeni kullanıcı bilgilerini Firebase Auth üzerinde güncelle
             await updateProfile(user, {
                 displayName: newUsername,
             });
 
-            // Firestore'da kullanıcı koleksiyonunu güncelle
             const usersRef = collection(db, "users");
-            const userQuery = query(usersRef, where("email", "==", user.email)); // Kullanıcının e-posta adresine göre sorgu yap
+            const userQuery = query(usersRef, where("email", "==", user.email)); 
             const querySnapshot = await getDocs(userQuery);
 
             if (querySnapshot.empty) {
@@ -67,7 +62,6 @@ const UpdateProfileScreen = ({ navigation }) => {
                 return;
             }
 
-            // Sadece bir kullanıcı bekleniyor, çünkü email alanına göre sorgu yapıldı
             const userDocRef = doc(db, "users", querySnapshot.docs[0].id);
 
             await updateDoc(userDocRef, {
@@ -75,7 +69,6 @@ const UpdateProfileScreen = ({ navigation }) => {
                 phoneNumber: newPhoneNumber,
             });
 
-            // Başarı mesajını göster ve ana sayfaya yönlendir
             setErrorMessage('');
             navigation.goBack();
 

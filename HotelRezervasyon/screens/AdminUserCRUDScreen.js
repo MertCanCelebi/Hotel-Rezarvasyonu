@@ -19,7 +19,7 @@ const AdminUserCRUDScreen = ({ navigation }) => {
     }, []);
 
     const handleDeleteUser = (userId) => {
-        // Silme işlemi öncesinde kullanıcıya bir onay mesajı göster
+        
         Alert.alert(
             "Kullanıcı Sil",
             "Bu kullanıcıyı silmek istediğinize emin misiniz?",
@@ -34,9 +34,9 @@ const AdminUserCRUDScreen = ({ navigation }) => {
                         try {
                             await deleteDoc(doc(db, "users", userId));
                             setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
-                            console.log("User deleted");
+                            console.log("Kullanıcı Silindi.");
                         } catch (e) {
-                            console.error("Error deleting user: ", e);
+                            console.error("Kullanıcı silme hatası: ", e);
                         }
                     },
                 },
@@ -91,22 +91,22 @@ const AdminUserCRUDScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        backgroundColor: '#B2DFDB', // Yeşil tonlu arka plan rengi
+        backgroundColor: '#B2DFDB',
     },
     heading: {
         fontSize: 28,
         marginBottom: 20,
-        color: '#0277BD', // Mavi tonlu başlık rengi
+        color: '#0277BD',
         fontWeight: 'bold',
         textAlign: 'center',
     },
     userItem: {
         borderWidth: 1,
-        borderColor: '#4CAF50', // Yeşil renkli çerçeve rengi
+        borderColor: '#4CAF50',
         borderRadius: 10,
         padding: 10,
         marginBottom: 10,
-        backgroundColor: '#E0F7FA', // Cyan tonlu arka plan rengi
+        backgroundColor: '#E0F7FA',
     },
     userInfo: {
         fontSize: 16,
@@ -119,24 +119,24 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     updateButton: {
-        color: '#FF5722', // Turuncu renk
+        color: '#FF5722',
         fontSize: 16,
     },
     deleteButton: {
-        color: '#F44336', // Kırmızı renk
+        color: '#F44336',
         fontSize: 16,
     },
     addButton: {
-        color: '#311B92', // Mor renk
+        color: '#311B92',
         fontSize: 16,
         textAlign: 'center',
         padding: 10,
-        backgroundColor: '#C5CAE9', // Light Purple tonlu arka plan rengi
+        backgroundColor: '#C5CAE9',
         borderRadius: 5,
         marginTop: 10,
     },
     changePasswordButton: {
-        color: '#D84315', // Kahverengi renk
+        color: '#D84315',
         fontSize: 16,
     },
 });

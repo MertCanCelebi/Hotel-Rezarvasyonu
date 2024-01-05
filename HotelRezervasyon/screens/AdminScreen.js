@@ -32,25 +32,25 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#2ecc71', // Daha canlı yeşil bir arka plan rengi
+    backgroundColor: '#2ecc71',
   },
   heading: {
     fontSize: 28,
     marginBottom: 20,
-    color: '#fff', // Beyaz başlık rengi
+    color: '#fff',
     fontWeight: 'bold',
   },
   button: {
-    backgroundColor: '#3498db', // Mavi buton rengi
+    backgroundColor: '#3498db', 
     padding: 15,
     width: 250,
     alignItems: 'center',
     borderRadius: 10,
     margin: 10,
-    elevation: 3, // Gölge efekti
+    elevation: 3, 
   },
   buttonText: {
-    color: '#fff', // Beyaz buton metni rengi
+    color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
   },

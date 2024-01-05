@@ -7,7 +7,7 @@ const MyReservationsScreen = ({ navigation, route }) => {
   const [reservations, setReservations] = useState([]);
 
   useEffect(() => {
-    // Bu kullanıcının rezervasyonlarını getir
+    
     const fetchReservations = async () => {
       const userId = auth.currentUser.uid;
 
@@ -24,7 +24,7 @@ const MyReservationsScreen = ({ navigation, route }) => {
     };
 
     fetchReservations();
-  }, []); // Boş dependency array ile sadece bir kere çağrılır
+  }, []); 
 
   const cancelReservation = (reservationId) => {
     Alert.alert(
@@ -50,7 +50,7 @@ const MyReservationsScreen = ({ navigation, route }) => {
 
               Alert.alert('Başarılı', 'Rezervasyon iptal edildi.');
             } catch (error) {
-              console.error('Error cancelling reservation:', error);
+              console.error('rezervasyon silme hatası:', error);
               Alert.alert('Hata', 'Rezervasyon iptal edilirken bir hata oluştu. Lütfen tekrar deneyin.');
             }
           },

@@ -1,4 +1,3 @@
-// Profile.js
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -55,7 +54,7 @@ const ProfileScreen = ({ navigation }) => {
         <View style={styles.card}>
           <Text style={styles.title}>Profil Bilgileri</Text>
           <View style={styles.infoContainer}>
-            <Text style={styles.label}>Username:</Text>
+            <Text style={styles.label}>Kullanıcı Adı:</Text>
             <Text style={styles.info}>{userData?.username || 'Bilgi Yok'}</Text>
           </View>
           <View style={styles.infoContainer}>

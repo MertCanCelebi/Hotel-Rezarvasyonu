@@ -64,14 +64,14 @@ const LoginScreen = ({ navigation }) => {
         }
 
         console.log(
-          "User hotels and photos retrieved from Firestore successfully"
+          "VERİLER BAŞARI İLE ÇEKİLDİ"
         );
         console.log(role);
 
         return role;
       } catch (error) {
         console.error(
-          "Error retrieving user hotels and photos from Firestore:",
+          "FİREBASEDEN VERİ ÇEKİLEMEDİ:",
           error
         );
         throw error;
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F5F5F5", // Açık gri arka plan rengi
+    backgroundColor: "#F5F5F5",
     paddingHorizontal: 20,
   },
   title: {
@@ -137,15 +137,15 @@ const styles = StyleSheet.create({
   input: {
     width: "100%",
     height: 50,
-    borderColor: "#B0C4DE", // Gök mavisi çerçeve rengi
+    borderColor: "#B0C4DE",
     borderWidth: 2,
     marginBottom: 20,
     padding: 12,
     borderRadius: 8,
-    backgroundColor: "#FFFFFF", // Beyaz arka plan rengi
+    backgroundColor: "#FFFFFF",
   },
   button: {
-    backgroundColor: "#32CD32", // Yeşil düğme rengi
+    backgroundColor: "#32CD32",
     padding: 15,
     borderRadius: 8,
     width: "100%",
@@ -157,20 +157,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   successText: {
-    color: "#008000", // Yeşil renk
+    color: "#008000",
     marginTop: 12,
     fontWeight: "bold",
     fontSize: 16,
   },
   errorText: {
-    color: "#FF0000", // Kırmızı renk
+    color: "#FF0000",
     marginTop: 12,
     fontWeight: "bold",
     fontSize: 16,
   },
   registerLink: {
     marginTop: 20,
-    color: "#4169E1", // Royal mavi renk
+    color: "#4169E1",
     textDecorationLine: "underline",
     fontSize: 14,
   },

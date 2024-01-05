@@ -47,7 +47,7 @@ const HomeScreen = ({ navigation }) => {
         hotel.hotelName.toLowerCase().includes(searchText) ||
         hotel.Description.toLowerCase().includes(searchText) ||
         hotel.hotelCity.toLowerCase().includes(searchText)
-        // Diğer özelliklere göre de filtreleme ekleyebilirsiniz
+        
     );
 });
   return (

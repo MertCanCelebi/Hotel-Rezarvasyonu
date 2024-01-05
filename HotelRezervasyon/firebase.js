@@ -16,7 +16,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const storage = getStorage(app); // Storage ekleniyor
+const storage = getStorage(app); 
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -24,4 +24,4 @@ if (!firebase.apps.length) {
 
 const auth = firebase.auth();
 
-export { app, db, storage, getDownloadURL, ref,uploadBytes, auth}; // storage ve getDownloadURL ekleniyor
+export { app, db, storage, getDownloadURL, ref,uploadBytes, auth}; 

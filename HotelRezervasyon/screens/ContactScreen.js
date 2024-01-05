@@ -56,9 +56,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   authorImage: {
-    width: 100, // İstediğiniz genişliği ayarlayabilirsiniz
-    height: 100, // İstediğiniz yüksekliği ayarlayabilirsiniz
-    borderRadius: 50, // Yarım daire şeklinde olacak şekilde kenarlık ekleyebilirsiniz
+    width: 100, 
+    height: 100, 
+    borderRadius: 50,
     marginBottom: 8,
   },
   authorName: {

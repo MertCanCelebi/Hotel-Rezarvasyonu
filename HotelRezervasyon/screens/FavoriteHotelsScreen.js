@@ -76,7 +76,7 @@ const FavoriteHotelsScreen = ({ navigation }) => {
                   await deleteDoc(doc.ref);
                 });
 
-                // Favori oteli sildikten sonra tüm otelleri tekrar getir ve güncelle
+                
                 await fetchFavoriteHotels();
               },
             },
@@ -89,7 +89,7 @@ const FavoriteHotelsScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    // Favori otelleri getirme işlemini buraya al
+  
     fetchFavoriteHotels();
   }, []);
 

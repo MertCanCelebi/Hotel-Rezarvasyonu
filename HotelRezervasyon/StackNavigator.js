@@ -1,4 +1,3 @@
-// StackNavigator.js
 import { StyleSheet, View } from "react-native";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -40,7 +39,7 @@ const StackNavigator = () => {
           name="Home"
           component={HomeScreen}
           options={{
-            tabBarLabel: "Home",
+            tabBarLabel: "Ana Sayfa",
             headerShown: false,
             tabBarIcon: ({ focused }) =>
               focused ? (
@@ -54,7 +53,7 @@ const StackNavigator = () => {
           name="FavoriteHotels"
           component={FavoriteHotelsScreen}
           options={{
-            tabBarLabel: "Favorites",
+            tabBarLabel: "Favorilerim",
             headerShown: false,
             tabBarIcon: ({ focused }) =>
               focused ? (
@@ -68,7 +67,7 @@ const StackNavigator = () => {
           name="MyReservations"
           component={MyReservationScreen}
           options={{
-            tabBarLabel: "MyReservations",
+            tabBarLabel: "Rezervasyonlarım",
             headerShown: false,
             tabBarIcon: ({ focused }) =>
               focused ? (
@@ -82,7 +81,7 @@ const StackNavigator = () => {
           name="Contact"
           component={ContactScreen}
           options={{
-            tabBarLabel: "Contact",
+            tabBarLabel: "İletişim",
             headerShown: false,
             tabBarIcon: ({ focused }) =>
               focused ? (
@@ -104,7 +103,7 @@ const StackNavigator = () => {
           name="Profile"
           component={ProfileScreen}
           options={{
-            tabBarLabel: "Profile",
+            tabBarLabel: "Profil",
             headerShown: false,
             tabBarIcon: ({ focused }) =>
               focused ? (
@@ -118,7 +117,7 @@ const StackNavigator = () => {
           name="LogOut"
           component={LogOutScreen}
           options={{
-            tabBarLabel: "LogOut",
+            tabBarLabel: "Çıkış",
             headerShown: false,
             tabBarIcon: ({ focused }) =>
               focused ? (
@@ -138,7 +137,7 @@ const StackNavigator = () => {
           name="Admin"
           component={AdminScreen}
           options={{
-            tabBarLabel: "Admin",
+            tabBarLabel: "Admin Panel",
             headerShown: false,
             tabBarIcon: ({ focused }) =>
               focused ? (
@@ -153,7 +152,7 @@ const StackNavigator = () => {
           name="Profile"
           component={ProfileScreen}
           options={{
-            tabBarLabel: "Profile",
+            tabBarLabel: "Profil",
             headerShown: false,
             tabBarIcon: ({ focused }) =>
               focused ? (
@@ -167,7 +166,7 @@ const StackNavigator = () => {
           name="LogOut"
           component={LogOutScreen}
           options={{
-            tabBarLabel: "LogOut",
+            tabBarLabel: "Çıkış",
             headerShown: false,
             tabBarIcon: ({ focused }) =>
               focused ? (
@@ -187,18 +186,18 @@ const StackNavigator = () => {
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Main" component={MyTabs} />
         <Stack.Screen name="HotelDetailsScreen" component={HotelDetailsScreen} />
-        <Stack.Screen name="AdminScreen" component={AdminScreen} />
         <Stack.Screen name="FavoriteHotelsScreen" component={FavoriteHotelsScreen} />
         <Stack.Screen name="MakeReservationScreen" component={MakeReservationScreen} />
         <Stack.Screen name="MyReservationScreen" component={MyReservationScreen} />
+        <Stack.Screen name="AdminTabs" component={AdminTabs} />
+        <Stack.Screen name="AdminScreen" component={AdminScreen} />
         <Stack.Screen name="AdminUserCRUDScreen" component={AdminUserCRUDScreen} />
         <Stack.Screen name="UserAddScreen" component={UserAddScreen} />
-        <Stack.Screen name="AdminHotelCRUDScreen" component={AdminHotelCRUDScreen} />
         <Stack.Screen name="UserUpdateScreen" component={UserUpdateScreen} />
+        <Stack.Screen name="UserChangePasswordScreen" component={UserChangePasswordScreen} />
+        <Stack.Screen name="AdminHotelCRUDScreen" component={AdminHotelCRUDScreen} />
         <Stack.Screen name="HotelAddScreen" component={HotelAddScreen} />
         <Stack.Screen name="HotelUpdateScreen" component={HotelUpdateScreen} />
-        <Stack.Screen name="UserChangePasswordScreen" component={UserChangePasswordScreen} />
-        <Stack.Screen name="AdminTabs" component={AdminTabs} />
         <Stack.Screen name="UpdateProfile" component={UpdateProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>

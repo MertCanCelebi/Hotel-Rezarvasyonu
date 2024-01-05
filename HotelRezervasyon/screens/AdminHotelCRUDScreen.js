@@ -69,9 +69,9 @@ const AdminHotelCRUDScreen = ({ navigation }) => {
                         try {
                             await deleteDoc(doc(db, "hotels", hotelId));
                             setHotels(prevHotels => prevHotels.filter(hotel => hotel.id !== hotelId));
-                            console.log("Hotel deleted");
+                            console.log("Hotel silindi");
                         } catch (e) {
-                            console.error("Error deleting hotel: ", e);
+                            console.error("Hotel Silme Hatası: ", e);
                         }
                     },
                 },
@@ -80,12 +80,12 @@ const AdminHotelCRUDScreen = ({ navigation }) => {
     };
 
     const handleUpdateHotel = (hotelId) => {
-        // Güncelleme ekranına yönlendir
+       
         navigation.navigate('HotelUpdateScreen', { hotelId });
     };
 
     const handleAddHotel = () => {
-        // Otel ekleme ekranına yönlendir
+        
         navigation.navigate('HotelAddScreen');
     };
 
@@ -118,22 +118,22 @@ const AdminHotelCRUDScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        backgroundColor: '#B2DFDB', // Yeşil tonlu arka plan rengi
+        backgroundColor: '#B2DFDB', 
     },
     heading: {
         fontSize: 28,
         marginBottom: 20,
-        color: '#0277BD', // Mavi tonlu başlık rengi
+        color: '#0277BD', 
         fontWeight: 'bold',
         textAlign: 'center',
     },
     hotelItem: {
         borderWidth: 1,
-        borderColor: '#4CAF50', // Yeşil renkli çerçeve rengi
+        borderColor: '#4CAF50', 
         borderRadius: 10,
         padding: 10,
         marginBottom: 10,
-        backgroundColor: '#E0F7FA', // Cyan tonlu arka plan rengi
+        backgroundColor: '#E0F7FA', 
     },
     hotelInfo: {
         fontSize: 16,
@@ -146,19 +146,19 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     updateButton: {
-        color: '#FF5722', // Turuncu renk
+        color: '#FF5722',
         fontSize: 16,
     },
     deleteButton: {
-        color: '#F44336', // Kırmızı renk
+        color: '#F44336',
         fontSize: 16,
     },
     addButton: {
-        color: '#311B92', // Mor renk
+        color: '#311B92', 
         fontSize: 16,
         textAlign: 'center',
         padding: 10,
-        backgroundColor: '#C5CAE9', // Light Purple tonlu arka plan rengi
+        backgroundColor: '#C5CAE9', 
         borderRadius: 5,
         marginTop: 10,
     },

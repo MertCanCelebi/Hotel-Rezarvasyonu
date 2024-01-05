@@ -1,4 +1,3 @@
-// UserUpdateScreen.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { app, db } from '../firebase';
@@ -26,10 +25,10 @@ const UserUpdateScreen = ({ route, navigation }) => {
                     setUpdatedPhoneNumber(userData.phoneNumber);
                     setUpdatedRole(userData.rol);
                 } else {
-                    console.error("User not found");
+                    console.error("User bulunamadı");
                 }
             } catch (error) {
-                console.error("Error fetching user data: ", error);
+                console.error("Kullanıcı Getirme Hatası: ", error);
             }
         };
 
@@ -49,9 +48,14 @@ const UserUpdateScreen = ({ route, navigation }) => {
             setErrorMessages(["Geçerli bir e-posta adresi giriniz."]);
             return;
         }
+
         const existingUserQuery = await getDocs(query(collection(db, 'users'), where('email', '==', updatedEmail)));
         if (existingUserQuery.docs.length !== 0 && existingUserQuery.docs[0].id !== userId) {
             setErrorMessages(["Bu e-posta adresi başka bir kullanıcı tarafından kullanılıyor."]);
+            return;
+        }
+        if (updatedRole !== 'admin' && updatedRole !== 'kullanici') {
+            setErrorMessages(["Geçersiz rol. Rol sadece admin veya kullanici olabilir."]);
             return;
         }
         try {
@@ -63,10 +67,8 @@ const UserUpdateScreen = ({ route, navigation }) => {
             });
             
             setSuccessMessage(["Kullanıcı başarıyla güncellendi."]);
-            setErrorMessages([]); // Clear error messages
-    
+            setErrorMessages([]);
             const timer = setTimeout(() => {
-                // Şifre değiştirme işlemi tamamlandıktan sonra başka bir sayfaya yönlendirme yapabilirsiniz.
                 navigation.goBack();
                 navigation.goBack();
                 navigation.navigate('AdminUserCRUDScreen');
@@ -74,7 +76,7 @@ const UserUpdateScreen = ({ route, navigation }) => {
           
               return () => clearTimeout(timer);
         } catch (error) {
-            console.error("Error updating user: ", error);
+            console.error("Kullanıcı Güncelleme hatası: ", error);
             setErrorMessages(["Kullanıcı güncelleme sırasında bir hata oluştu"]);
         }
     };
@@ -83,7 +85,7 @@ const UserUpdateScreen = ({ route, navigation }) => {
     if (!user) {
         return (
             <View style={styles.container}>
-                <Text>Loading...</Text>
+                <Text>Yükleniyor...</Text>
             </View>
         );
     }
@@ -142,26 +144,26 @@ const UserUpdateScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        backgroundColor: '#E0F7FA', // Açık Mavi tonlu arka plan rengi
+        backgroundColor: '#E0F7FA',
     },
     heading: {
         fontSize: 24,
         marginBottom: 20,
-        color: '#1565C0', // Koyu Mavi tonlu başlık rengi
+        color: '#1565C0',
     },
     input: {
         borderWidth: 1,
-        borderColor: '#4CAF50', // Yeşil renkli çerçeve rengi
+        borderColor: '#4CAF50',
         borderRadius: 5,
         padding: 10,
         marginBottom: 10,
     },
     errorMessage: {
-        color: '#F44336', // Kırmızı renk
+        color: '#F44336', 
         marginTop: 10,
     },
     successMessage: {
-        color: '#4CAF50', // Yeşil renk
+        color: '#4CAF50', 
         marginTop: 10,
     },
 });

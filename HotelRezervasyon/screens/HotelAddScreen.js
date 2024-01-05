@@ -1,5 +1,3 @@
-// AdminHotelAddScreen.js
-
 import React, { useState } from 'react';
 import { Alert, Button, KeyboardAvoidingView, Modal, ScrollView, StyleSheet, Text, TextInput, View, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
@@ -103,7 +101,7 @@ const AdminHotelAddScreen = ({ navigation, visible, onCancel }) => {
             );
 
         } catch (error) {
-            console.error("Error uploading images to Firebase:", error);
+            console.error("Firebase hatası:", error);
         }
         setUploading(false);
     };
@@ -128,8 +126,6 @@ const AdminHotelAddScreen = ({ navigation, visible, onCancel }) => {
             setErrorMessage('Otel adı, şehri ve açıklama zorunlu alanlardır.');
             return;
         }
-
-        // Firestore'a otel bilgilerini kaydedin
         const db = getFirestore();
         const hotelsCollection = collection(db, 'hotels');
         const hotelData = {
@@ -143,14 +139,11 @@ const AdminHotelAddScreen = ({ navigation, visible, onCancel }) => {
         try {
             await addDoc(hotelsCollection, hotelData);
             setSuccessMessage('Otel başarıyla eklendi.');
-
-            // İsteğe bağlı: Ekranı sıfırlayarak başka bir sayfaya yönlendirebilirsiniz.
-
             navigation.goBack();
             navigation.goBack();
             navigation.navigate('AdminHotelCRUDScreen');
         } catch (error) {
-            console.error('Error adding hotel:', error);
+            console.error('Otel ekleme hatası:', error);
             setErrorMessage('Otel eklenirken bir hata oluştu.');
         }
     };
